@@ -14,6 +14,13 @@
       var(--color-background);
   }
 
+  [data-theme="dark"] body {
+    background:
+      radial-gradient(circle at top, rgba(173, 141, 94, 0.12), transparent 24%),
+      radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.04), transparent 22%),
+      var(--color-background);
+  }
+
   h1,
   h2,
   h3,
@@ -38,6 +45,10 @@
 
   ::selection {
     background: color-mix(in srgb, var(--color-primary) 32%, transparent);
+  }
+
+  iframe {
+    color-scheme: light;
   }
 }
 
