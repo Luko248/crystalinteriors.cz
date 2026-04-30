@@ -7,6 +7,7 @@ import SectionIntro from "@/components/SectionIntro.astro";
 import Button from "@/components/ui/Button.astro";
 import { site } from "@/data/site";
 import { cloudinaryImage } from "@/lib/cloudinary";
+import { withBase } from "@/lib/navigation";
 ---
 
 <BaseLayout
@@ -66,7 +67,7 @@ import { cloudinaryImage } from "@/lib/cloudinary";
         </div>
 
         <div class="mt-10 flex justify-center">
-          <Button as="a" href="/sluzby/" variant="outline" size="lg" rel={undefined}>
+          <Button as="a" href={withBase("/sluzby/")} variant="outline" size="lg" rel={undefined}>
             Zobrazit služby a ceník
           </Button>
         </div>
@@ -98,7 +99,7 @@ import { cloudinaryImage } from "@/lib/cloudinary";
             Vytvoříme interiér přesně pro váš způsob bydlení nebo podnikání.
           </h2>
         </div>
-        <Button as="a" href="/kontakt/" variant="secondary" size="lg" rel={undefined}>
+        <Button as="a" href={withBase("/kontakt/")} variant="secondary" size="lg" rel={undefined}>
           Domluvit schůzku
         </Button>
       </div>

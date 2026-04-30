@@ -5,6 +5,7 @@ import SiteFooter from "@/components/SiteFooter.astro";
 import SectionIntro from "@/components/SectionIntro.astro";
 import Button from "@/components/ui/Button.astro";
 import { site } from "@/data/site";
+import { withBase } from "@/lib/navigation";
 ---
 
 <BaseLayout
@@ -64,7 +65,7 @@ import { site } from "@/data/site";
         </div>
 
         <div class="mt-10">
-          <Button as="a" href="/kontakt/" variant="primary" size="lg" rel={undefined}>
+          <Button as="a" href={withBase("/kontakt/")} variant="primary" size="lg" rel={undefined}>
             Poptat projekt
           </Button>
         </div>

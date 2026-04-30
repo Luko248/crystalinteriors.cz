@@ -1,6 +1,7 @@
 ---
 import { site } from "@/data/site";
 import { cloudinaryImage } from "@/lib/cloudinary";
+import { withBase } from "@/lib/navigation";
 import Button from "./ui/Button.astro";
 ---
 
@@ -33,7 +34,7 @@ import Button from "./ui/Button.astro";
       <div class="flex flex-col gap-3 pt-2 sm:flex-row sm:flex-wrap">
         <Button
           as="a"
-          href={site.hero.primaryCta.href}
+          href={withBase(site.hero.primaryCta.href)}
           variant="hero-primary"
           size="lg"
           rel={undefined}
@@ -43,7 +44,7 @@ import Button from "./ui/Button.astro";
         </Button>
         <Button
           as="a"
-          href={site.hero.secondaryCta.href}
+          href={withBase(site.hero.secondaryCta.href)}
           variant="hero-outline"
           size="lg"
           rel={undefined}

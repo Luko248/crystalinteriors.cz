@@ -3,6 +3,15 @@ export interface ReferenceLink {
   label: string;
 }
 
+export const withBase = (path: string) => {
+  const base = import.meta.env.BASE_URL || "/";
+  if (/^([a-z]+:)?\/\//i.test(path) || path.startsWith("mailto:") || path.startsWith("tel:") || path.startsWith("#")) {
+    return path;
+  }
+  const trimmed = path.replace(/^\//, "");
+  return base.endsWith("/") ? `${base}${trimmed}` : `${base}/${trimmed}`;
+};
+
 export const normalizePath = (value: string) => {
   if (!value) return "/";
   try {

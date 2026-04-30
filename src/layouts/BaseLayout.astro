@@ -17,7 +17,8 @@ const {
   pathname = Astro.url.pathname,
 } = Astro.props;
 
-const canonical = new URL(pathname, site.siteUrl).toString();
+const canonicalPath = pathname.startsWith("/") ? pathname : `/${pathname}`;
+const canonical = `${site.siteUrl}${canonicalPath}`;
 const pageTitle = `${title} | ${site.name}`;
 const ogImage = image;
 const schema = {
