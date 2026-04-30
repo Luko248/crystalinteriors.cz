@@ -1,0 +1,45 @@
+---
+export interface Props {
+  label?: string;
+  title: string;
+  align?: "center" | "start";
+  dividerAlign?: "center" | "start" | "end";
+  dividerClass?: string;
+  class?: string;
+}
+
+const {
+  label,
+  title,
+  align = "center",
+  dividerAlign,
+  dividerClass = "",
+  class: className = "",
+} = Astro.props;
+
+const alignmentClasses =
+  align === "start" ? "items-start text-left" : "items-center text-center";
+const effectiveDividerAlign =
+  dividerAlign ?? (align === "center" ? "center" : "start");
+const dividerClasses = [
+  "h-1 w-20 md:w-24 bg-primary rounded-full",
+  effectiveDividerAlign === "center" && "mx-auto",
+  effectiveDividerAlign === "end" && "ml-auto",
+  dividerClass,
+];
+---
+
+<div class:list={["flex flex-col gap-3", alignmentClasses, className]}>
+  {label && (
+    <span class="text-primary text-sm md:text-base font-semibold tracking-[0.3em] uppercase">
+      {label}
+    </span>
+  )}
+
+  <h2
+    class="font-display uppercase text-4xl md:text-5xl lg:text-6xl text-foreground leading-tight"
+    set:html={title}
+  />
+
+  <div class:list={dividerClasses} />
+</div>

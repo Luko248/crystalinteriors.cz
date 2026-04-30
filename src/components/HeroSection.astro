@@ -1,0 +1,57 @@
+---
+import { site } from "@/data/site";
+import { cloudinaryImage } from "@/lib/cloudinary";
+import Button from "./ui/Button.astro";
+---
+
+<section class="relative isolate overflow-hidden">
+  <div class="absolute inset-0">
+    <img
+      src={cloudinaryImage(site.hero.image, { width: 1800, height: 1200, fit: "fill" })}
+      alt="Návrh moderního interiéru od Crystal Interiors"
+      class="h-full w-full object-cover"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-[linear-gradient(115deg,rgba(14,14,13,0.88)_0%,rgba(14,14,13,0.72)_36%,rgba(14,14,13,0.44)_62%,rgba(14,14,13,0.24)_100%)]"></div>
+    <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(14,14,13,0.2)_0%,rgba(14,14,13,0.42)_100%)]"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(173,141,94,0.26),transparent_36%)]"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.08),transparent_32%)]"></div>
+  </div>
+
+  <div class="relative mx-auto flex min-h-[78svh] max-w-7xl items-end px-4 pb-16 pt-28 sm:px-6 md:min-h-[82svh] md:items-center md:pb-20 lg:px-8 lg:pt-32">
+    <div class="max-w-3xl space-y-7 text-white">
+      <p class="text-sm font-medium uppercase tracking-[0.24em] text-white/76">
+        {site.hero.eyebrow}
+      </p>
+      <h1 class="max-w-4xl text-4xl leading-tight text-balance md:text-6xl">
+        {site.hero.title}
+      </h1>
+      <p class="max-w-2xl text-lg leading-8 text-white/88 md:text-xl">
+        {site.hero.text}
+      </p>
+      <div class="flex flex-col gap-3 pt-2 sm:flex-row sm:flex-wrap">
+        <Button
+          as="a"
+          href={site.hero.primaryCta.href}
+          variant="hero-primary"
+          size="lg"
+          rel={undefined}
+          class="min-h-13 min-w-[220px] justify-center"
+        >
+          {site.hero.primaryCta.label}
+        </Button>
+        <Button
+          as="a"
+          href={site.hero.secondaryCta.href}
+          variant="hero-outline"
+          size="lg"
+          rel={undefined}
+          class="min-h-13 min-w-[220px] justify-center border-white/34 text-white hover:border-white hover:bg-white/10 hover:text-white"
+        >
+          {site.hero.secondaryCta.label}
+        </Button>
+      </div>
+    </div>
+  </div>
+</section>

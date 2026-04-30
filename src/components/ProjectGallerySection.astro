@@ -1,0 +1,33 @@
+---
+import Gallery from "@/components/Gallery.astro";
+import { galleryImages } from "@/lib/cloudinary";
+
+export interface Props {
+  project: {
+    folder?: string;
+    title: string;
+    subtitle: string;
+    text: string;
+    images: string[];
+  };
+  index: number;
+}
+
+const { project, index } = Astro.props;
+---
+
+<section class="grid gap-8 border-t border-black/8 py-12 first:border-t-0 dark:border-white/8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
+  <div class="space-y-4 lg:sticky lg:top-28 lg:self-start">
+    <p class="text-sm font-medium uppercase tracking-[0.22em] text-primary">
+      Projekt {String(index + 1).padStart(2, "0")}
+    </p>
+    <h2 class="text-3xl leading-tight text-foreground">{project.title}</h2>
+    <p class="text-lg text-foreground">{project.subtitle}</p>
+    <p class="text-base leading-8 text-muted">{project.text}</p>
+  </div>
+
+  <Gallery
+    galleryId={`project-${index + 1}`}
+    images={galleryImages(project.images, project.title, project.folder)}
+  />
+</section>

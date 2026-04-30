@@ -1,0 +1,50 @@
+@layer base {
+  html {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at top, rgba(173, 141, 94, 0.1), transparent 28%),
+      var(--color-background);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  button,
+  .button,
+  .btn {
+    font-family: var(--font-display);
+  }
+
+  a,
+  button {
+    transition:
+      color 180ms ease,
+      background-color 180ms ease,
+      border-color 180ms ease,
+      transform 180ms ease,
+      box-shadow 180ms ease;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-primary) 32%, transparent);
+  }
+}
+
+@layer components {
+  .shadow-soft {
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.04),
+      0 16px 40px rgba(0, 0, 0, 0.08);
+  }
+}

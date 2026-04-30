@@ -1,0 +1,68 @@
+---
+import { site } from "@/data/site";
+---
+
+<footer class="border-t border-black/8 bg-white/70 py-16 dark:border-white/8 dark:bg-[#121210]">
+  <div class="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-[1.25fr_1fr] lg:px-8">
+    <div class="space-y-6">
+      <div class="space-y-3">
+        <p class="text-sm font-medium uppercase tracking-[0.22em] text-primary">
+          Kontakt
+        </p>
+        <h2 class="max-w-xl text-3xl leading-tight text-foreground md:text-4xl">
+          Proměňme vaši představu v interiér, který bude fungovat každý den.
+        </h2>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2">
+        <div class="space-y-2">
+          <p class="text-sm uppercase tracking-[0.18em] text-muted">Ateliér</p>
+          <p class="text-base leading-7 text-foreground">{site.company.address}</p>
+        </div>
+        <div class="space-y-2">
+          <p class="text-sm uppercase tracking-[0.18em] text-muted">Provozovatel</p>
+          <p class="text-base leading-7 text-foreground">
+            {site.company.legalName}<br />
+            IČO {site.company.ico}<br />
+            {site.company.registeredAddress}
+          </p>
+        </div>
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-2">
+        {
+          site.company.contacts.map((contact) => (
+            <div class="rounded-2xl border border-black/8 bg-black/[0.02] p-4 dark:border-white/8 dark:bg-white/[0.03]">
+              <p class="font-medium text-foreground">{contact.name}</p>
+              <a href={`mailto:${contact.email}`} class="text-sm text-primary hover:underline">
+                {contact.email}
+              </a>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="overflow-hidden rounded-3xl border border-black/8 bg-black/5 shadow-sm dark:border-white/8 dark:bg-white/5">
+      <iframe
+        src={site.company.mapEmbed}
+        class="h-full min-h-[320px] w-full"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Crystal Interiors mapa"
+      ></iframe>
+    </div>
+  </div>
+
+  <div class="mx-auto mt-10 flex max-w-7xl flex-col gap-4 px-4 text-sm text-muted sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+    <p>© {new Date().getFullYear()} {site.name}. Všechna práva vyhrazena.</p>
+    <div class="flex gap-4">
+      <a href={site.social.facebook} target="_blank" rel="noreferrer" class="hover:text-foreground">
+        Facebook
+      </a>
+      <a href={site.social.instagram} target="_blank" rel="noreferrer" class="hover:text-foreground">
+        Instagram
+      </a>
+    </div>
+  </div>
+</footer>

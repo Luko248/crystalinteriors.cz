@@ -1,0 +1,141 @@
+---
+import { site } from "@/data/site";
+
+export interface Props {
+  title: string;
+  description: string;
+  keywords?: string[];
+  image?: string;
+  pathname?: string;
+}
+
+const {
+  title,
+  description,
+  keywords = site.keywords,
+  image = site.hero.image,
+  pathname = Astro.url.pathname,
+} = Astro.props;
+
+const canonical = new URL(pathname, site.siteUrl).toString();
+const pageTitle = `${title} | ${site.name}`;
+const ogImage = image;
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "LocalBusiness",
+      "@id": `${site.siteUrl}/#business`,
+      name: site.name,
+      image: ogImage,
+      description,
+      url: site.siteUrl,
+      telephone: site.company.phones,
+      email: site.company.emails,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Dusíkova 900/3c",
+        postalCode: "638 00",
+        addressLocality: "Brno",
+        addressCountry: "CZ",
+      },
+      sameAs: [site.social.facebook, site.social.instagram],
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": `${site.siteUrl}/#service`,
+      name: `${site.name} - interiéry a nábytek na míru`,
+      provider: { "@id": `${site.siteUrl}/#business` },
+      areaServed: "Brno a okolí",
+      serviceType: [
+        "Interiérový design",
+        "Návrh kuchyní",
+        "Nábytek na míru",
+        "Vizualizace interiérů",
+        "Realizace interiérů",
+      ],
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5, viewport-fit=cover"
+    />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords.join(", ")} />
+    <meta name="robots" content="index,follow" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="author" content={site.name} />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link
+      rel="icon"
+      type="image/png"
+      href={import.meta.env.BASE_URL + "images/favicons/favicon-96x96.png"}
+      sizes="96x96"
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href={import.meta.env.BASE_URL + "images/favicons/favicon.svg"}
+    />
+    <link
+      rel="shortcut icon"
+      href={import.meta.env.BASE_URL + "images/favicons/favicon.ico"}
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href={import.meta.env.BASE_URL + "images/favicons/apple-touch-icon.png"}
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href={import.meta.env.BASE_URL + "styles/tailwind.css"} />
+    <link rel="stylesheet" href={import.meta.env.BASE_URL + "styles/global.css"} />
+
+    <script is:inline>
+      (() => {
+        try {
+          const root = document.documentElement;
+          const stored = localStorage.getItem("theme");
+          const system = window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+          root.dataset.theme = stored === "dark" || stored === "light" ? stored : system;
+        } catch {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </head>
+  <body class="bg-background text-foreground antialiased">
+    <slot />
+  </body>
+</html>

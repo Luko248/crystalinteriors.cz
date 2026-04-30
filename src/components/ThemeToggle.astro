@@ -1,0 +1,33 @@
+---
+import MoonIcon from "@/components/icons/MoonIcon.astro";
+import SunIcon from "@/components/icons/SunIcon.astro";
+---
+
+<button
+  type="button"
+  id="theme-toggle"
+  class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white/70 text-foreground shadow-sm backdrop-blur transition hover:bg-white dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
+  aria-label="Přepnout barevné téma"
+  title="Přepnout barevné téma"
+>
+  <MoonIcon class="h-5 w-5 dark:hidden" />
+  <SunIcon class="hidden h-5 w-5 dark:block" />
+</button>
+
+<script is:inline>
+  (() => {
+    const root = document.documentElement;
+    const sync = (next) => {
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem("theme", next);
+      } catch {}
+    };
+    const button = document.getElementById("theme-toggle");
+    if (!button) return;
+    button.addEventListener("click", () => {
+      const next = root.dataset.theme === "dark" ? "light" : "dark";
+      sync(next);
+    });
+  })();
+</script>
