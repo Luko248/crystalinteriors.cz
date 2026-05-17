@@ -6,6 +6,7 @@ import HeroSection from "@/components/HeroSection.astro";
 import SectionIntro from "@/components/SectionIntro.astro";
 import Button from "@/components/ui/Button.astro";
 import ArrowRightIcon from "@/components/icons/ArrowRightIcon.astro";
+import ParallaxStrip from "@/components/ParallaxStrip.astro";
 import { site } from "@/data/site";
 import { cloudinaryImage } from "@/lib/cloudinary";
 import { withBase } from "@/lib/navigation";
@@ -45,6 +46,15 @@ const heroPreload = cloudinaryImage(site.hero.image, {
         </div>
       </div>
     </section>
+
+    <ParallaxStrip
+      image={site.home.parallaxImage}
+      eyebrow="Čím se zabýváme"
+      title="Interiéry, kuchyně a nábytek na míru"
+      text="Návrh, vizualizace a realizace v jedné lince — od dispozice po finální detail."
+      tone="dark"
+      height="md"
+    />
 
     <section
       class="border-y border-border bg-surface py-14 sm:py-20 lg:py-28"
@@ -95,6 +105,14 @@ const heroPreload = cloudinaryImage(site.hero.image, {
         </div>
       </div>
     </section>
+
+    <ParallaxStrip
+      image={site.home.parallaxImage}
+      eyebrow="Náš přístup"
+      title="Návrh, materiál i realizace v jedné ruce"
+      tone="dark"
+      height="sm"
+    />
 
     <section
       class="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-28"

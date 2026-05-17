@@ -60,6 +60,7 @@ export const site = {
       "Od prvního dispozičního návrhu až po osazení posledního detailu držíme projekt pohromadě. Díky tomu hlídáme ergonomii, rozpočet i kvalitu provedení.",
     businessSentence:
       "Pomáháme klientům rozhodovat se jistěji a investovat do interiéru, který dává smysl dlouhodobě.",
+    parallaxImage: "https://duyn491kcolsw.cloudfront.net/files/1u/1um/1umned.jpg",
   },
   services: [
     {
