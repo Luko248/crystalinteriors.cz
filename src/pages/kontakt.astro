@@ -11,9 +11,13 @@ import { site } from "@/data/site";
   title="Kontakt"
   description="Kontaktujte Crystal Interiors kvůli návrhu kuchyně, interiéru nebo zakázkového nábytku."
   pathname="/kontakt/"
+  breadcrumbs={[
+    { name: "Úvod", href: "/" },
+    { name: "Kontakt", href: "/kontakt/" },
+  ]}
 >
   <SiteHeader pathname={Astro.url.pathname} />
-  <main class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+  <main id="main" class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
     <SectionIntro
       eyebrow="Kontakt"
       title="Pojďme probrat váš interiér"
@@ -21,25 +25,54 @@ import { site } from "@/data/site";
     />
 
     <div class="mt-12 grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
-      <div class="space-y-6">
-        <div class="rounded-[1.75rem] border border-black/8 bg-surface p-7 dark:border-white/8">
-          <p class="text-sm font-medium uppercase tracking-[0.22em] text-primary">Ateliér</p>
+      <address class="space-y-6 not-italic">
+        <section
+          class="rounded-[1.75rem] border border-black/8 bg-surface p-7 dark:border-white/8"
+          aria-labelledby="contact-address-label"
+        >
+          <p id="contact-address-label" class="text-sm font-medium uppercase tracking-[0.22em] text-primary">Ateliér</p>
           <p class="mt-3 text-xl leading-8 text-foreground">{site.company.address}</p>
-        </div>
+        </section>
 
-        <div class="rounded-[1.75rem] border border-black/8 bg-surface p-7 dark:border-white/8">
-          <p class="text-sm font-medium uppercase tracking-[0.22em] text-primary">Telefon</p>
-          <div class="mt-3 grid gap-2">
-            {site.company.phones.map((phone) => <a href={`tel:${phone.replace(/\s+/g, "")}`} class="text-xl text-foreground hover:text-primary">{phone}</a>)}
-          </div>
-        </div>
+        <section
+          class="rounded-[1.75rem] border border-black/8 bg-surface p-7 dark:border-white/8"
+          aria-labelledby="contact-phone-label"
+        >
+          <p id="contact-phone-label" class="text-sm font-medium uppercase tracking-[0.22em] text-primary">Telefon</p>
+          <ul class="mt-3 grid list-none gap-2">
+            {site.company.phones.map((phone) => (
+              <li>
+                <a
+                  href={`tel:${phone.replace(/\s+/g, "")}`}
+                  class="text-xl text-foreground hover:text-primary"
+                  aria-label={`Zavolat na číslo ${phone}`}
+                >
+                  {phone}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
 
-        <div class="rounded-[1.75rem] border border-black/8 bg-surface p-7 dark:border-white/8">
-          <p class="text-sm font-medium uppercase tracking-[0.22em] text-primary">E-mail</p>
-          <div class="mt-3 grid gap-2">
-            {site.company.emails.map((email) => <a href={`mailto:${email}`} class="text-lg text-foreground hover:text-primary">{email}</a>)}
-          </div>
-        </div>
+        <section
+          class="rounded-[1.75rem] border border-black/8 bg-surface p-7 dark:border-white/8"
+          aria-labelledby="contact-email-label"
+        >
+          <p id="contact-email-label" class="text-sm font-medium uppercase tracking-[0.22em] text-primary">E-mail</p>
+          <ul class="mt-3 grid list-none gap-2">
+            {site.company.emails.map((email) => (
+              <li>
+                <a
+                  href={`mailto:${email}`}
+                  class="text-lg text-foreground hover:text-primary"
+                  aria-label={`Napsat e-mail na ${email}`}
+                >
+                  {email}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
 
         <div class="flex flex-wrap gap-3">
           <Button as="a" href={`mailto:${site.company.emails[0]}`} variant="primary" size="lg" rel={undefined}>
@@ -49,7 +82,7 @@ import { site } from "@/data/site";
             Zavolat
           </Button>
         </div>
-      </div>
+      </address>
 
       <div class="overflow-hidden rounded-[2rem] border border-black/8 bg-surface shadow-sm dark:border-white/8">
         <iframe
@@ -57,7 +90,7 @@ import { site } from "@/data/site";
           class="h-[520px] w-full"
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
-          title="Crystal Interiors mapa"
+          title="Mapa — sídlo Crystal Interiors, Dusíkova 900/3c, Brno-Lesná"
         ></iframe>
       </div>
     </div>

@@ -16,7 +16,11 @@ const activePath =
   class="sticky top-0 z-50 border-b border-black/8 bg-white/82 backdrop-blur-xl dark:border-white/8 dark:bg-[#111110]/82"
 >
   <div class="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6 lg:gap-8 lg:px-8">
-    <a href={withBase("/")} class="shrink-0 pr-2">
+    <a
+      href={withBase("/")}
+      class="shrink-0 pr-2"
+      aria-label={`${site.name} — domovská stránka`}
+    >
       <div class="flex flex-col">
         <span class="text-[0.7rem] font-medium uppercase tracking-[0.24em] text-primary">
           Crystal Interiors
@@ -27,13 +31,17 @@ const activePath =
       </div>
     </a>
 
-    <nav class="ml-auto hidden items-center gap-6 xl:gap-8 lg:flex">
+    <nav
+      class="ml-auto hidden items-center gap-6 xl:gap-8 lg:flex"
+      aria-label="Hlavní navigace"
+    >
       {
         site.nav.map((item) => {
           const isActive = activePath === item.href;
           return (
             <a
               href={withBase(item.href)}
+              aria-current={isActive ? "page" : undefined}
               class:list={[
                 "whitespace-nowrap text-sm transition hover:text-foreground",
                 isActive ? "text-foreground" : "text-muted",
@@ -50,28 +58,44 @@ const activePath =
     <div class="ml-auto flex items-center gap-2 lg:hidden">
       <ThemeToggle />
       <details class="group relative">
-        <summary class="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-full border border-black/10 bg-white/70 text-foreground shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
+        <summary
+          class="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-full border border-black/10 bg-white/70 text-foreground shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5"
+          aria-label="Otevřít navigaci"
+          aria-haspopup="menu"
+        >
           <span class="sr-only">Otevřít menu</span>
-          <span class="flex flex-col gap-1">
+          <span class="flex flex-col gap-1" aria-hidden="true">
             <span class="h-0.5 w-5 rounded bg-current"></span>
             <span class="h-0.5 w-5 rounded bg-current"></span>
             <span class="h-0.5 w-5 rounded bg-current"></span>
           </span>
         </summary>
-        <div class="absolute right-0 mt-3 w-[18rem] rounded-2xl border border-black/8 bg-white p-4 shadow-xl dark:border-white/8 dark:bg-[#171715]">
-          <nav class="flex flex-col gap-3">
+        <nav
+          class="absolute right-0 mt-3 w-[18rem] rounded-2xl border border-black/8 bg-white p-4 shadow-xl dark:border-white/8 dark:bg-[#171715]"
+          aria-label="Mobilní navigace"
+        >
+          <ul class="flex flex-col gap-3">
             {
-              site.nav.map((item) => (
-                <a
-                  href={withBase(item.href)}
-                  class="rounded-xl px-3 py-2 text-sm text-foreground transition hover:bg-black/5 dark:hover:bg-white/5"
-                >
-                  {item.label}
-                </a>
-              ))
+              site.nav.map((item) => {
+                const isActive = activePath === item.href;
+                return (
+                  <li>
+                    <a
+                      href={withBase(item.href)}
+                      aria-current={isActive ? "page" : undefined}
+                      class:list={[
+                        "block rounded-xl px-3 py-2 text-sm text-foreground transition hover:bg-black/5 dark:hover:bg-white/5",
+                        isActive && "bg-black/5 dark:bg-white/5",
+                      ]}
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                );
+              })
             }
-          </nav>
-        </div>
+          </ul>
+        </nav>
       </details>
     </div>
   </div>

@@ -11,9 +11,13 @@ import { site } from "@/data/site";
   title="Reference"
   description="Reference Crystal Interiors podle typu prostoru — kuchyně, obývací pokoje, ložnice, koupelny i komerční interiéry."
   pathname="/projekty/"
+  breadcrumbs={[
+    { name: "Úvod", href: "/" },
+    { name: "Reference", href: "/projekty/" },
+  ]}
 >
   <SiteHeader pathname={Astro.url.pathname} />
-  <main class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+  <main id="main" class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
     <SectionIntro
       eyebrow="Reference"
       title="Realizace a vizualizace podle typu prostoru"
@@ -55,6 +59,19 @@ import { site } from "@/data/site";
     return `https://res.cloudinary.com/${cloudName}/image/upload/${transforms}/${version}${res.public_id}.${res.format}`;
   };
 
+  const escape = (value: string) =>
+    value.replace(/[&<>"']/g, (char) =>
+      char === "&"
+        ? "&amp;"
+        : char === "<"
+          ? "&lt;"
+          : char === ">"
+            ? "&gt;"
+            : char === '"'
+              ? "&quot;"
+              : "&#39;",
+    );
+
   const renderTile = (
     res: CloudinaryResource,
     galleryId: string,
@@ -64,16 +81,21 @@ import { site } from "@/data/site";
     const alt = `${title} — reference ${index + 1}`;
     const thumb = buildUrl("f_auto,q_auto,w_900,c_limit", res);
     const full = buildUrl("f_auto,q_auto,w_1920,c_limit", res);
-    const tile = document.createElement("a");
-    tile.href = full;
-    tile.dataset.fancybox = galleryId;
-    tile.dataset.caption = alt;
-    tile.className =
-      "group relative mb-6 block break-inside-avoid overflow-hidden rounded-xl bg-surface shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl";
-    tile.innerHTML = `
+
+    const item = document.createElement("li");
+    item.className = "mb-6 break-inside-avoid";
+
+    const link = document.createElement("a");
+    link.href = full;
+    link.dataset.fancybox = galleryId;
+    link.dataset.caption = alt;
+    link.setAttribute("aria-label", `Otevřít obrázek — ${alt}`);
+    link.className =
+      "group relative block overflow-hidden rounded-xl bg-surface shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl";
+    link.innerHTML = `
       <img
-        src="${thumb}"
-        alt="${alt}"
+        src="${escape(thumb)}"
+        alt="${escape(alt)}"
         width="${res.width}"
         height="${res.height}"
         loading="lazy"
@@ -81,27 +103,37 @@ import { site } from "@/data/site";
         class="h-auto w-full transform transition-transform duration-500 group-hover:scale-105"
       />
     `;
-    return tile;
+    item.appendChild(link);
+    return item;
   };
 
   async function loadSection(section: HTMLElement) {
     const tag = section.dataset.tag;
     const galleryId = section.dataset.galleryId ?? tag ?? "references";
     const title = section.dataset.title ?? "";
-    const grid = section.querySelector<HTMLDivElement>(
+    const live = section.querySelector<HTMLElement>("[data-references-live]");
+    const grid = section.querySelector<HTMLUListElement>(
       "[data-references-grid]",
     );
     const status = section.querySelector<HTMLElement>(
       "[data-references-status]",
     );
 
-    if (!grid || !tag) return;
+    const settle = () => {
+      live?.setAttribute("aria-busy", "false");
+    };
+
+    if (!grid || !tag) {
+      settle();
+      return;
+    }
 
     if (!cloudName) {
       if (status) {
         status.textContent =
           "Reference se připravují. Galerie se zobrazí po propojení s Cloudinary.";
       }
+      settle();
       return;
     }
 
@@ -118,6 +150,7 @@ import { site } from "@/data/site";
 
       if (!resources.length) {
         if (status) status.textContent = "Reference se připravují.";
+        settle();
         return;
       }
 
@@ -131,6 +164,8 @@ import { site } from "@/data/site";
       if (status) {
         status.textContent = "Reference se nepodařilo načíst.";
       }
+    } finally {
+      settle();
     }
   }
 

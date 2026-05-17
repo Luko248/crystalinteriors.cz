@@ -5,13 +5,16 @@ import { withBase } from "@/lib/navigation";
 import Button from "./ui/Button.astro";
 ---
 
-<section class="relative isolate overflow-hidden">
-  <div class="absolute inset-0">
+<section class="relative isolate overflow-hidden" aria-labelledby="hero-title">
+  <div class="absolute inset-0" aria-hidden="true">
     <img
       src={cloudinaryImage(site.hero.image, { width: 1800, height: 1200, fit: "fill" })}
-      alt="Návrh moderního interiéru od Crystal Interiors"
+      alt=""
+      width="1800"
+      height="1200"
       class="h-full w-full scale-105 object-cover motion-safe:animate-[hero-zoom_18s_ease-out_forwards]"
       loading="eager"
+      decoding="async"
       fetchpriority="high"
     />
     <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(14,14,13,0.55)_0%,rgba(14,14,13,0.78)_55%,rgba(14,14,13,0.92)_100%)]"></div>
@@ -26,7 +29,7 @@ import Button from "./ui/Button.astro";
         {site.hero.eyebrow}
         <span class="h-px w-10 bg-white/40"></span>
       </p>
-      <h1 class="mx-auto max-w-4xl text-balance text-4xl leading-[1.08] tracking-tight md:text-6xl lg:text-7xl">
+      <h1 id="hero-title" class="mx-auto max-w-4xl text-balance text-4xl leading-[1.08] tracking-tight md:text-6xl lg:text-7xl">
         {site.hero.title}
       </h1>
       <p class="mx-auto max-w-2xl text-balance text-lg leading-8 text-white/82 md:text-xl">

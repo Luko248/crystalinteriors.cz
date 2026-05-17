@@ -12,9 +12,13 @@ import { withBase } from "@/lib/navigation";
   title="Služby a ceník"
   description="Kompletní návrhy a realizace interiérů, 2D a 3D vizualizace, kuchyně a nábytek na míru."
   pathname="/sluzby/"
+  breadcrumbs={[
+    { name: "Úvod", href: "/" },
+    { name: "Služby", href: "/sluzby/" },
+  ]}
 >
   <SiteHeader pathname={Astro.url.pathname} />
-  <main>
+  <main id="main">
     <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <SectionIntro
         eyebrow="Služby"

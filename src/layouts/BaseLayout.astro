@@ -1,5 +1,6 @@
 ---
 import { site } from "@/data/site";
+import { cloudinaryImage } from "@/lib/cloudinary";
 
 export interface Props {
   title: string;
@@ -7,6 +8,8 @@ export interface Props {
   keywords?: string[];
   image?: string;
   pathname?: string;
+  preloadImage?: string;
+  breadcrumbs?: Array<{ name: string; href: string }>;
 }
 
 const {
@@ -15,48 +18,98 @@ const {
   keywords = site.keywords,
   image = site.hero.image,
   pathname = Astro.url.pathname,
+  preloadImage,
+  breadcrumbs,
 } = Astro.props;
+
+const cloudName = import.meta.env.PUBLIC_CLOUDINARY_CLOUD_NAME as
+  | string
+  | undefined;
 
 const canonicalPath = pathname.startsWith("/") ? pathname : `/${pathname}`;
 const canonical = `${site.siteUrl}${canonicalPath}`;
 const pageTitle = `${title} | ${site.name}`;
-const ogImage = image;
-const schema = {
-  "@context": "https://schema.org",
-  "@graph": [
+const ogImage = cloudinaryImage(image, { width: 1200, height: 630, fit: "fill" });
+
+const localBusiness = {
+  "@type": "LocalBusiness",
+  "@id": `${site.siteUrl}/#business`,
+  name: site.name,
+  image: ogImage,
+  logo: `${site.siteUrl}/images/favicons/favicon.svg`,
+  description: site.description,
+  url: site.siteUrl,
+  telephone: site.company.phones,
+  email: site.company.emails,
+  priceRange: "$$",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Dusíkova 900/3c",
+    postalCode: "638 00",
+    addressLocality: "Brno",
+    addressRegion: "Jihomoravský kraj",
+    addressCountry: "CZ",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 49.29762,
+    longitude: 16.62418,
+  },
+  areaServed: { "@type": "Place", name: "Brno a okolí" },
+  openingHoursSpecification: [
     {
-      "@type": "LocalBusiness",
-      "@id": `${site.siteUrl}/#business`,
-      name: site.name,
-      image: ogImage,
-      description,
-      url: site.siteUrl,
-      telephone: site.company.phones,
-      email: site.company.emails,
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: "Dusíkova 900/3c",
-        postalCode: "638 00",
-        addressLocality: "Brno",
-        addressCountry: "CZ",
-      },
-      sameAs: [site.social.facebook, site.social.instagram],
-    },
-    {
-      "@type": "ProfessionalService",
-      "@id": `${site.siteUrl}/#service`,
-      name: `${site.name} - interiéry a nábytek na míru`,
-      provider: { "@id": `${site.siteUrl}/#business` },
-      areaServed: "Brno a okolí",
-      serviceType: [
-        "Interiérový design",
-        "Návrh kuchyní",
-        "Nábytek na míru",
-        "Vizualizace interiérů",
-        "Realizace interiérů",
-      ],
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "09:00",
+      closes: "17:00",
     },
   ],
+  sameAs: [site.social.facebook, site.social.instagram],
+};
+
+const professionalService = {
+  "@type": "ProfessionalService",
+  "@id": `${site.siteUrl}/#service`,
+  name: `${site.name} - interiéry a nábytek na míru`,
+  provider: { "@id": `${site.siteUrl}/#business` },
+  areaServed: "Brno a okolí",
+  serviceType: [
+    "Interiérový design",
+    "Návrh kuchyní",
+    "Nábytek na míru",
+    "Vizualizace interiérů",
+    "Realizace interiérů",
+  ],
+};
+
+const website = {
+  "@type": "WebSite",
+  "@id": `${site.siteUrl}/#website`,
+  url: site.siteUrl,
+  name: site.name,
+  description: site.description,
+  inLanguage: "cs",
+  publisher: { "@id": `${site.siteUrl}/#business` },
+};
+
+const breadcrumbsGraph = breadcrumbs?.length
+  ? [
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${canonical}#breadcrumbs`,
+        itemListElement: breadcrumbs.map((crumb, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: crumb.name,
+          item: `${site.siteUrl}${crumb.href}`,
+        })),
+      },
+    ]
+  : [];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [website, localBusiness, professionalService, ...breadcrumbsGraph],
 };
 ---
 
@@ -71,22 +124,39 @@ const schema = {
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <meta name="keywords" content={keywords.join(", ")} />
-    <meta name="robots" content="index,follow" />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="author" content={site.name} />
+    <meta name="generator" content="Astro" />
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      name="theme-color"
+      content="#f5f1ea"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#16140f"
+      media="(prefers-color-scheme: dark)"
+    />
     <link rel="canonical" href={canonical} />
 
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="cs_CZ" />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${site.name} — ${title}`} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={`${site.name} — ${title}`} />
 
     <link
       rel="icon"
@@ -111,10 +181,29 @@ const schema = {
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    {
+      cloudName && (
+        <>
+          <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
+          <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        </>
+      )
+    }
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+
+    {
+      preloadImage && (
+        <link
+          rel="preload"
+          as="image"
+          href={preloadImage}
+          fetchpriority="high"
+        />
+      )
+    }
 
     <link rel="stylesheet" href={import.meta.env.BASE_URL + "styles/tailwind.css"} />
     <link rel="stylesheet" href={import.meta.env.BASE_URL + "styles/global.css"} />
@@ -137,6 +226,12 @@ const schema = {
     <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
   </head>
   <body class="bg-background text-foreground antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-white focus:shadow-lg"
+    >
+      Přeskočit na obsah
+    </a>
     <slot />
   </body>
 </html>
