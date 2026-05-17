@@ -1,0 +1,44 @@
+---
+export interface Props {
+  category: {
+    slug: string;
+    tag: string;
+    title: string;
+    text: string;
+  };
+  index: number;
+}
+
+const { category, index } = Astro.props;
+const galleryId = `references-${category.slug}`;
+---
+
+<section
+  class="grid gap-8 border-t border-black/8 py-12 first:border-t-0 dark:border-white/8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14"
+  data-references-section
+  data-tag={category.tag}
+  data-gallery-id={galleryId}
+  data-title={category.title}
+>
+  <div class="space-y-4 lg:sticky lg:top-28 lg:self-start">
+    <p class="text-sm font-medium uppercase tracking-[0.22em] text-primary">
+      Sekce {String(index + 1).padStart(2, "0")}
+    </p>
+    <h2 class="text-3xl leading-tight text-foreground">{category.title}</h2>
+    <p class="text-base leading-8 text-muted">{category.text}</p>
+  </div>
+
+  <div class="py-4">
+    <p
+      class="text-sm leading-7 text-muted"
+      data-references-status
+    >
+      Načítání referencí…
+    </p>
+    <div
+      class="hidden columns-1 gap-6 sm:columns-2 lg:columns-3"
+      data-references-grid
+    >
+    </div>
+  </div>
+</section>

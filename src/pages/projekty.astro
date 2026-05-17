@@ -3,30 +3,160 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import SiteHeader from "@/components/SiteHeader.astro";
 import SiteFooter from "@/components/SiteFooter.astro";
 import SectionIntro from "@/components/SectionIntro.astro";
-import ProjectGallerySection from "@/components/ProjectGallerySection.astro";
+import ReferencesGallery from "@/components/ReferencesGallery.astro";
 import { site } from "@/data/site";
 ---
 
 <BaseLayout
-  title="Projekty"
-  description="Portfolio vizualizací a realizovaných interiérů Crystal Interiors."
+  title="Reference"
+  description="Reference Crystal Interiors podle typu prostoru — kuchyně, obývací pokoje, ložnice, koupelny i komerční interiéry."
   pathname="/projekty/"
 >
   <SiteHeader pathname={Astro.url.pathname} />
   <main class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
     <SectionIntro
-      eyebrow="Portfolio"
-      title="Realizované projekty a vybrané vizualizace"
-      text="Ukázky projektů napříč rezidenčními i komerčními interiéry. Každá reference spojuje návrh prostoru, materiálové rozhodnutí a reálnou použitelnost."
+      eyebrow="Reference"
+      title="Realizace a vizualizace podle typu prostoru"
+      text="Vyberte si typ interiéru a prohlédněte si výběr našich realizací i vizualizací. Galerie se načítají přímo z naší Cloudinary knihovny."
     />
 
     <div class="mt-12">
       {
-        site.projects.map((project, index) => (
-          <ProjectGallerySection project={project} index={index} />
+        site.references.map((category, index) => (
+          <ReferencesGallery category={category} index={index} />
         ))
       }
     </div>
   </main>
   <SiteFooter />
 </BaseLayout>
+
+<script>
+  import { Fancybox } from "@fancyapps/ui";
+  import "@fancyapps/ui/dist/fancybox/fancybox.css";
+
+  type CloudinaryResource = {
+    public_id: string;
+    format: string;
+    width: number;
+    height: number;
+    version?: number;
+  };
+
+  const cloudName = import.meta.env.PUBLIC_CLOUDINARY_CLOUD_NAME as
+    | string
+    | undefined;
+
+  const buildUrl = (
+    transforms: string,
+    res: CloudinaryResource,
+  ) => {
+    const version = res.version ? `v${res.version}/` : "";
+    return `https://res.cloudinary.com/${cloudName}/image/upload/${transforms}/${version}${res.public_id}.${res.format}`;
+  };
+
+  const renderTile = (
+    res: CloudinaryResource,
+    galleryId: string,
+    title: string,
+    index: number,
+  ) => {
+    const alt = `${title} — reference ${index + 1}`;
+    const thumb = buildUrl("f_auto,q_auto,w_900,c_limit", res);
+    const full = buildUrl("f_auto,q_auto,w_1920,c_limit", res);
+    const tile = document.createElement("a");
+    tile.href = full;
+    tile.dataset.fancybox = galleryId;
+    tile.dataset.caption = alt;
+    tile.className =
+      "group relative mb-6 block break-inside-avoid overflow-hidden rounded-xl bg-surface shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl";
+    tile.innerHTML = `
+      <img
+        src="${thumb}"
+        alt="${alt}"
+        width="${res.width}"
+        height="${res.height}"
+        loading="lazy"
+        decoding="async"
+        class="h-auto w-full transform transition-transform duration-500 group-hover:scale-105"
+      />
+    `;
+    return tile;
+  };
+
+  async function loadSection(section: HTMLElement) {
+    const tag = section.dataset.tag;
+    const galleryId = section.dataset.galleryId ?? tag ?? "references";
+    const title = section.dataset.title ?? "";
+    const grid = section.querySelector<HTMLDivElement>(
+      "[data-references-grid]",
+    );
+    const status = section.querySelector<HTMLElement>(
+      "[data-references-status]",
+    );
+
+    if (!grid || !tag) return;
+
+    if (!cloudName) {
+      if (status) {
+        status.textContent =
+          "Reference se připravují. Galerie se zobrazí po propojení s Cloudinary.";
+      }
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://res.cloudinary.com/${cloudName}/image/list/${tag}.json`,
+        { cache: "no-cache" },
+      );
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data = (await response.json()) as {
+        resources?: CloudinaryResource[];
+      };
+      const resources = data.resources ?? [];
+
+      if (!resources.length) {
+        if (status) status.textContent = "Reference se připravují.";
+        return;
+      }
+
+      resources.forEach((res, i) => {
+        grid.appendChild(renderTile(res, galleryId, title, i));
+      });
+      grid.classList.remove("hidden");
+      status?.remove();
+    } catch (error) {
+      console.warn(`References for "${tag}" failed to load`, error);
+      if (status) {
+        status.textContent = "Reference se nepodařilo načíst.";
+      }
+    }
+  }
+
+  async function init() {
+    const sections = document.querySelectorAll<HTMLElement>(
+      "[data-references-section]",
+    );
+    await Promise.all(Array.from(sections).map(loadSection));
+
+    Fancybox.bind("[data-fancybox]", {
+      Hash: true,
+      Toolbar: {
+        display: {
+          left: ["infobar"],
+          middle: [],
+          right: ["slideshow", "thumbs", "close"],
+        },
+      },
+      Images: { zoom: true },
+    } as unknown as Parameters<typeof Fancybox.bind>[1]);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+  } else {
+    init();
+  }
+  document.addEventListener("astro:page-load", init);
+</script>

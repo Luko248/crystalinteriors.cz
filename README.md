@@ -21,14 +21,29 @@ bun run build
 ```
 
 ## Cloudinary
-Optional environment variables:
+Required environment variable for image delivery and references:
 
 ```bash
 PUBLIC_CLOUDINARY_CLOUD_NAME=your-cloud-name
 PUBLIC_SITE_URL=https://www.crystalinteriors.cz
 ```
 
-If `PUBLIC_CLOUDINARY_CLOUD_NAME` is set, remote project images are served through Cloudinary fetch transforms. Without it, the site falls back to the original source URLs.
+When `PUBLIC_CLOUDINARY_CLOUD_NAME` is set, hero and service images are served through Cloudinary fetch transforms.
+
+### References galleries (`/projekty/`)
+Each room-type section on `/projekty/` loads its images at runtime from a Cloudinary tag using `https://res.cloudinary.com/<cloud>/image/list/<tag>.json`.
+
+Required setup in your Cloudinary console:
+1. **Enable resource list delivery**: Settings → Security → uncheck `Resource list` in the *Restricted media types* list. Without this the JSON endpoint returns 401.
+2. **Tag your assets** with one of the section slugs defined in `src/data/site.ts` under `site.references`:
+   - `kuchyne` – Kuchyně
+   - `obyvaky` – Obývací pokoje
+   - `loznice` – Ložnice a šatny
+   - `detske-pokoje` – Dětské a studentské pokoje
+   - `koupelny` – Koupelny
+   - `komercni` – Kanceláře a komerční interiéry
+
+Add or rename categories by editing `site.references`; the page renders one section per entry and binds Fancybox (latest stable `@fancyapps/ui`) per section.
 
 ## Routes
 - `/`
