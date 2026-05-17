@@ -6,8 +6,14 @@ import HeroSection from "@/components/HeroSection.astro";
 import SectionIntro from "@/components/SectionIntro.astro";
 import Button from "@/components/ui/Button.astro";
 import ArrowRightIcon from "@/components/icons/ArrowRightIcon.astro";
+import SparklesIcon from "@/components/icons/SparklesIcon.astro";
+import UserGroupIcon from "@/components/icons/UserGroupIcon.astro";
+import WrenchScrewdriverIcon from "@/components/icons/WrenchScrewdriverIcon.astro";
+import ClockIcon from "@/components/icons/ClockIcon.astro";
 import ParallaxStrip from "@/components/ParallaxStrip.astro";
 import { site } from "@/data/site";
+
+const processIcons = [SparklesIcon, UserGroupIcon, WrenchScrewdriverIcon, ClockIcon];
 import { cloudinaryImage } from "@/lib/cloudinary";
 import { withBase } from "@/lib/navigation";
 
@@ -39,11 +45,23 @@ const heroPreload = cloudinaryImage(site.hero.image, {
           text={site.home.introText}
           headingId="approach-title"
         />
-        <div class="rounded-3xl border border-border bg-surface p-6 shadow-card sm:p-8">
-          <p class="text-xl leading-8 text-foreground sm:text-2xl sm:leading-10 md:text-3xl">
-            {site.home.businessSentence}
-          </p>
-        </div>
+        <figure class="rounded-3xl border border-border bg-surface p-6 shadow-card sm:p-8 md:p-10">
+          <span
+            aria-hidden="true"
+            class="block font-display text-5xl leading-none text-primary/30 select-none sm:text-6xl md:text-7xl"
+          >&ldquo;</span>
+          <blockquote class="mt-3 sm:mt-4">
+            <p class="text-lg leading-7 text-foreground sm:text-xl sm:leading-8 md:text-2xl md:leading-[1.45]">
+              {site.home.businessSentence}
+            </p>
+          </blockquote>
+          <figcaption class="mt-6 flex items-center gap-3">
+            <span class="h-px w-10 bg-primary"></span>
+            <span class="text-xs font-medium uppercase tracking-eyebrow text-primary sm:text-sm">
+              Pro klienta
+            </span>
+          </figcaption>
+        </figure>
       </div>
     </section>
 
@@ -69,31 +87,57 @@ const heroPreload = cloudinaryImage(site.hero.image, {
           headingId="services-title"
         />
 
-        <ul class="mt-10 grid list-none gap-6 sm:mt-14 md:grid-cols-2 xl:grid-cols-3">
+        <ul class="mt-10 grid list-none gap-6 sm:mt-14 md:grid-cols-2 lg:grid-cols-3">
           {
-            site.services.map((service) => (
-              <li>
-                <article class="glass-hover h-full overflow-hidden rounded-xl border border-border bg-background shadow-card transition hover:-translate-y-1 hover:shadow-lifted">
-                  <img
-                    src={cloudinaryImage(service.image, {
-                      width: 900,
-                      height: 720,
-                      fit: "fill",
-                    })}
-                    alt={`Ukázka služby — ${service.title}`}
-                    width="900"
-                    height="720"
-                    class="aspect-[4/3] w-full object-cover"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  <div class="space-y-3 p-6">
-                    <h3 class="text-2xl text-foreground">{service.title}</h3>
-                    <p class="leading-7 text-muted">{service.text}</p>
-                  </div>
-                </article>
-              </li>
-            ))
+            site.services.map((service) => {
+              const isLocal = service.image.startsWith("/");
+              const src = isLocal
+                ? withBase(service.image)
+                : cloudinaryImage(service.image, {
+                    width: 900,
+                    height: 720,
+                    fit: "fill",
+                  });
+              const href = withBase(`/projekty/#${service.slug}`);
+              return (
+                <li>
+                  <a
+                    href={href}
+                    class="group block h-full overflow-hidden rounded-xl border border-border bg-background shadow-card no-underline transition duration-300 ease-standard hover:-translate-y-1 hover:border-primary/40 hover:shadow-lifted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    aria-label={`Zobrazit galerii — ${service.title}`}
+                  >
+                    <article class="flex h-full flex-col">
+                      <div class="relative overflow-hidden">
+                        <img
+                          src={src}
+                          alt={`Ukázka — ${service.title}`}
+                          width="900"
+                          height="720"
+                          class="aspect-[4/3] w-full transform object-cover transition-transform duration-500 ease-out-soft group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                        <div
+                          class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 transition-opacity duration-300 ease-standard group-hover:opacity-100"
+                          aria-hidden="true"
+                        />
+                      </div>
+                      <div class="flex flex-1 flex-col gap-3 p-5 sm:p-6">
+                        <h3 class="text-xl text-foreground sm:text-2xl">{service.title}</h3>
+                        <p class="leading-7 text-muted">{service.text}</p>
+                        <span
+                          class="mt-auto inline-flex items-center gap-2 pt-2 text-sm font-medium uppercase tracking-eyebrow text-primary transition-transform duration-300 ease-standard group-hover:translate-x-1"
+                          aria-hidden="true"
+                        >
+                          Zobrazit galerii
+                          <ArrowRightIcon class="h-4 w-4" />
+                        </span>
+                      </div>
+                    </article>
+                  </a>
+                </li>
+              );
+            })
           }
         </ul>
 
@@ -120,14 +164,20 @@ const heroPreload = cloudinaryImage(site.hero.image, {
     >
       <ul class="grid list-none gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-4">
         {
-          site.process.map((item) => (
-            <li class="rounded-xl border border-border bg-surface p-6">
-              <p class="text-sm font-medium uppercase tracking-eyebrow text-primary">
-                {item.title}
-              </p>
-              <p class="mt-4 leading-8 text-muted">{item.text}</p>
-            </li>
-          ))
+          site.process.map((item, index) => {
+            const Icon = processIcons[index] ?? SparklesIcon;
+            return (
+              <li class="flex h-full flex-col rounded-xl border border-border bg-surface p-6">
+                <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  <Icon class="h-5 w-5" />
+                </span>
+                <p class="mt-5 text-sm font-medium uppercase tracking-eyebrow text-primary">
+                  {item.title}
+                </p>
+                <p class="mt-3 leading-7 text-muted sm:leading-8">{item.text}</p>
+              </li>
+            );
+          })
         }
       </ul>
     </section>

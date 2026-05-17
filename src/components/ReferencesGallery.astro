@@ -16,7 +16,8 @@ const descriptionId = `${galleryId}-description`;
 ---
 
 <section
-  class="grid gap-8 border-t border-border py-12 first:border-t-0 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14"
+  id={category.slug}
+  class="scroll-mt-28 grid gap-8 border-t border-border py-12 first:border-t-0 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14"
   data-references-section
   data-tag={category.tag}
   data-gallery-id={galleryId}

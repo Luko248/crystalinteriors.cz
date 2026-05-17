@@ -74,39 +74,58 @@ export const site = {
   },
   services: [
     {
-      title: "Kuchyně na míru",
-      text: "Řešíme kuchyně od dispozice přes materiály a spotřebiče až po dodání na klíč.",
-      image:
-        "https://d9775ec23a.clvaw-cdnwnd.com/06dde8fa305f9cdafdc34740aa3f3c92/200000191-c6da0c6da3/vizu%20kuchyn%C4%9B%20_1.png",
+      slug: "kuchyne",
+      title: "Kuchyně",
+      text: "Kuchyně a kuchyňské linky na míru — od dispozice a materiálů přes spotřebiče až po výrobu a montáž.",
+      image: "/images/thumbnails/kuchyne.avif",
     },
     {
-      title: "Ložnice, šatny a úložné systémy",
-      text: "Navrhujeme klidné a praktické zázemí s úložnými prostory, které využijí každý centimetr.",
-      image:
-        "https://d9775ec23a.clvaw-cdnwnd.com/06dde8fa305f9cdafdc34740aa3f3c92/200000211-872898728c/138549013_1799853613529238_6851870505081232937_n%20%281%29.jpeg",
+      slug: "loznice",
+      title: "Ložnice",
+      text: "Ložnice a vestavěné skříně na míru. Klidné zázemí s úložnými systémy využívajícími každý centimetr.",
+      image: "/images/thumbnails/loznice.avif",
     },
     {
-      title: "Koupelny a technické zázemí",
-      text: "Koupelny navrhujeme s důrazem na provoz, údržbu a čisté detailní řešení.",
-      image:
-        "https://d9775ec23a.clvaw-cdnwnd.com/06dde8fa305f9cdafdc34740aa3f3c92/200000086-75d8775d89/Koutn%C3%BD_spodn%C3%AD_koupelna-vzor_Watermarked.jpeg",
+      slug: "satny-a-predsine",
+      title: "Šatny a předsíně",
+      text: "Skříně a vybavení šaten s přesným úložným systémem podle vašich věcí a dispozice prostoru.",
+      image: "/images/thumbnails/satny-a-predsine.avif",
     },
     {
-      title: "Obývací a dětské pokoje",
-      text: "Kombinujeme pohodlí, reprezentativní vzhled a chytré ukládání pro každodenní život.",
-      image:
-        "https://d9775ec23a.clvaw-cdnwnd.com/06dde8fa305f9cdafdc34740aa3f3c92/200000304-51b0a51b0c/vizu_d%C4%9Btsk%C3%BDpokoj%202_Watermarked-7.png",
+      slug: "koupelny",
+      title: "Koupelny",
+      text: "Příjemné místo pro relaxaci. Materiály a zařizovací předměty volíme s důrazem na provoz a údržbu.",
+      image: "/images/thumbnails/koupelny.avif",
     },
     {
-      title: "Kanceláře a komerční interiéry",
-      text: "Tvoříme pracovní a obchodní prostory, které podporují výkon i dojem z vaší značky.",
-      image:
-        "https://d9775ec23a.clvaw-cdnwnd.com/06dde8fa305f9cdafdc34740aa3f3c92/200000286-f0fa5f0fa7/196461753_1905792292935369_8953993768414667784_n%20%281%29.jpeg",
+      slug: "obyvaky",
+      title: "Obývací pokoje",
+      text: "Odpočinek i reprezentace. Pohodlí, výraz a chytré ukládání pro skutečný rytmus domácnosti.",
+      image: "/images/thumbnails/obyvaci-pokoje.avif",
     },
     {
-      title: "Hotely, restaurace a kavárny",
-      text: "Navrhujeme prostory, ve kterých se hosté cítí přirozeně dobře a chtějí se vracet.",
-      image: "https://duyn491kcolsw.cloudfront.net/files/24/24t/24tltk.jpg",
+      slug: "detske-pokoje",
+      title: "Dětský pokoj",
+      text: "Multifunkční prostor, který vydrží. Studijní zóna, ukládání i odpočinek v jednom funkčním celku.",
+      image: "/images/thumbnails/detsky-pokoj.avif",
+    },
+    {
+      slug: "kancelare",
+      title: "Kanceláře",
+      text: "Kvalitní rozložení a dobrý nábytek. Pracovní prostory, které podporují výkon i dojem ze značky.",
+      image: "/images/thumbnails/kancelare.avif",
+    },
+    {
+      slug: "hotely",
+      title: "Hotely",
+      text: "Krásné pokoje na míru. Pohostinné prostředí navržené pro hosty, kteří se rádi vracejí.",
+      image: "/images/thumbnails/hotely.avif",
+    },
+    {
+      slug: "restaurace-bary-kavarny",
+      title: "Restaurace, bary a kavárny",
+      text: "Stylový prostor podle vašeho stylu. Atmosféra, provoz a detail propojené v jedné lince.",
+      image: "/images/thumbnails/restaurace-bary-kavarny.avif",
     },
   ],
   process: [
@@ -156,25 +175,18 @@ export const site = {
         "Kuchyně řešíme od dispozice a ergonomie přes materiály a spotřebiče až po čisté detaily, které vydrží každodenní provoz.",
     },
     {
-      slug: "obyvaky",
-      tag: "obyvaky",
-      title: "Obývací pokoje",
-      text:
-        "Obývací prostory s důrazem na pohodlí, reprezentativní výraz a chytré ukládání pro skutečný rytmus domácnosti.",
-    },
-    {
       slug: "loznice",
       tag: "loznice",
-      title: "Ložnice a šatny",
+      title: "Ložnice",
       text:
-        "Klidné zázemí pro odpočinek s úložnými systémy navrženými přesně na míru dispozice a věcí, které v nich žijí.",
+        "Klidné zázemí pro odpočinek s vestavěnými skříněmi a úložnými systémy navrženými přesně na míru dispozice.",
     },
     {
-      slug: "detske-pokoje",
-      tag: "detske-pokoje",
-      title: "Dětské a studentské pokoje",
+      slug: "satny-a-predsine",
+      tag: "satny",
+      title: "Šatny a předsíně",
       text:
-        "Pokoje navržené tak, aby rostly s dítětem. Ukládání, studijní zóna i odpočinek v jednom funkčním celku.",
+        "Skříně a vybavení šaten s přesným úložným systémem podle vašich věcí a dispozice prostoru.",
     },
     {
       slug: "koupelny",
@@ -184,11 +196,39 @@ export const site = {
         "Koupelny s důrazem na provoz, údržbu a detail. Materiály a zařizovací předměty volíme s ohledem na dlouhou životnost.",
     },
     {
-      slug: "komercni",
-      tag: "komercni",
-      title: "Kanceláře a komerční interiéry",
+      slug: "obyvaky",
+      tag: "obyvaky",
+      title: "Obývací pokoje",
       text:
-        "Pracovní, obchodní a gastro prostory navržené tak, aby podporovaly výkon, provoz i dojem z vaší značky.",
+        "Obývací prostory s důrazem na pohodlí, reprezentativní výraz a chytré ukládání pro skutečný rytmus domácnosti.",
+    },
+    {
+      slug: "detske-pokoje",
+      tag: "detske-pokoje",
+      title: "Dětské a studentské pokoje",
+      text:
+        "Pokoje navržené tak, aby rostly s dítětem. Ukládání, studijní zóna i odpočinek v jednom funkčním celku.",
+    },
+    {
+      slug: "kancelare",
+      tag: "kancelare",
+      title: "Kanceláře",
+      text:
+        "Pracovní a obchodní prostory navržené tak, aby podporovaly výkon, provoz i dojem ze značky.",
+    },
+    {
+      slug: "hotely",
+      tag: "hotely",
+      title: "Hotely",
+      text:
+        "Hotelové pokoje a společné prostory s pohostinnou atmosférou — navrhujeme tak, aby se hosté rádi vraceli.",
+    },
+    {
+      slug: "restaurace-bary-kavarny",
+      tag: "restaurace",
+      title: "Restaurace, bary a kavárny",
+      text:
+        "Gastro prostory, ve kterých provoz, atmosféra a značka drží spolu — od dispozice po finální detail.",
     },
   ],
 };

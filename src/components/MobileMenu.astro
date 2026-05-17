@@ -53,6 +53,29 @@ const primaryPhone = site.company.phones[0]?.replace(/\s+/g, "") ?? "";
     <div
       class="glass-strong relative m-auto flex h-full w-full -translate-y-full flex-col justify-between gap-6 overflow-y-auto px-5 pt-20 pb-8 opacity-0 transition-[transform,opacity] duration-slow ease-out-soft group-data-[state=open]/menu:translate-y-0 group-data-[state=open]/menu:opacity-100 min-[480px]:gap-8 min-[480px]:px-6 min-[480px]:pt-24 min-[480px]:pb-10 motion-reduce:transition-none"
     >
+      <a
+        href={withBase("/")}
+        class="flex items-center gap-3 no-underline"
+        aria-label={`${site.name} — domovská stránka`}
+        data-mobile-menu-link
+      >
+        <img
+          src={withBase("/images/logos/crystalinteriors_logo-white.svg")}
+          alt=""
+          width="48"
+          height="48"
+          class="h-11 w-11 object-contain dark:[filter:none] [filter:invert(1)_brightness(0.2)]"
+          loading="eager"
+          decoding="async"
+        />
+        <span class="flex flex-col">
+          <span class="text-xs font-semibold uppercase tracking-eyebrow text-primary sm:text-sm">
+            {site.name}
+          </span>
+          <span class="text-xs text-muted sm:text-sm">Interiéry a nábytek na míru</span>
+        </span>
+      </a>
+
       <nav class="flex w-full flex-1 items-center" aria-label="Hlavní navigace">
         <ul class="flex w-full list-none flex-col gap-2 p-0 m-0">
           {
