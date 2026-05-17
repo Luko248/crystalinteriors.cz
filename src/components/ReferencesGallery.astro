@@ -6,10 +6,9 @@ export interface Props {
     title: string;
     text: string;
   };
-  index: number;
 }
 
-const { category, index } = Astro.props;
+const { category } = Astro.props;
 const galleryId = `references-${category.slug}`;
 const headingId = `${galleryId}-title`;
 const descriptionId = `${galleryId}-description`;
@@ -26,9 +25,6 @@ const descriptionId = `${galleryId}-description`;
   aria-describedby={descriptionId}
 >
   <div class="space-y-4 lg:sticky lg:top-28 lg:self-start">
-    <p class="text-sm font-medium uppercase tracking-eyebrow text-primary">
-      Sekce {String(index + 1).padStart(2, "0")}
-    </p>
     <h2 id={headingId} class="text-3xl leading-tight text-foreground">{category.title}</h2>
     <p id={descriptionId} class="text-base leading-8 text-muted">{category.text}</p>
   </div>

@@ -23,17 +23,17 @@ const activePath =
       <img
         src={withBase("/images/logos/crystalinteriors_logo-white.svg")}
         alt=""
-        width="64"
-        height="64"
-        class="h-12 w-12 object-contain dark:[filter:none] [filter:invert(1)_brightness(0.2)] sm:h-14 sm:w-14"
+        width="48"
+        height="48"
+        class="h-12 w-12 object-contain dark:[filter:none] [filter:invert(1)_brightness(0.2)]"
         loading="eager"
         decoding="async"
       />
       <span class="flex flex-col">
-        <span class="text-[0.75rem] font-semibold uppercase tracking-eyebrow text-primary sm:text-[0.8rem]">
+        <span class="text-[0.7rem] font-semibold uppercase tracking-eyebrow text-primary sm:text-[0.8rem]">
           {site.name}
         </span>
-        <span class="hidden text-sm leading-snug text-muted sm:block">
+        <span class="text-xs leading-snug text-muted sm:text-sm">
           Interiéry a nábytek na míru
         </span>
       </span>
@@ -48,7 +48,7 @@ const activePath =
               href={withBase(item.href)}
               aria-current={isActive ? "page" : undefined}
               class:list={[
-                "whitespace-nowrap text-sm no-underline transition-colors duration-fast ease-standard hover:text-foreground",
+                "cursor-pointer whitespace-nowrap text-sm no-underline transition-colors duration-fast ease-standard hover:text-foreground",
                 isActive ? "text-foreground" : "text-muted",
               ]}
             >

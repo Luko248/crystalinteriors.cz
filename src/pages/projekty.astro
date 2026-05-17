@@ -25,11 +25,7 @@ import { site } from "@/data/site";
     />
 
     <div class="mt-10 sm:mt-12">
-      {
-        site.references.map((category, index) => (
-          <ReferencesGallery category={category} index={index} />
-        ))
-      }
+      {site.references.map((category) => <ReferencesGallery category={category} />)}
     </div>
   </main>
   <SiteFooter />

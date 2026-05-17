@@ -10,13 +10,12 @@ export interface Props {
 const { pathname } = Astro.props;
 const activePath =
   pathname === "/" ? "/" : pathname.endsWith("/") ? pathname : `${pathname}/`;
-const primaryPhone = site.company.phones[0]?.replace(/\s+/g, "") ?? "";
 ---
 
 <div class="group/menu relative lg:hidden" data-mobile-menu data-state="closed">
   <button
     type="button"
-    class="glass relative z-[60] inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-full text-foreground"
+    class="relative z-[60] inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-border bg-background/60 text-foreground backdrop-blur transition-colors duration-fast ease-standard hover:border-primary hover:text-primary focus-visible:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     data-mobile-menu-toggle
     aria-controls="mobile-menu-panel"
     aria-expanded="false"
@@ -51,7 +50,7 @@ const primaryPhone = site.company.phones[0]?.replace(/\s+/g, "") ?? "";
     ></div>
 
     <div
-      class="glass-strong relative m-auto flex h-full w-full -translate-y-full flex-col justify-between gap-6 overflow-y-auto px-5 pt-20 pb-8 opacity-0 transition-[transform,opacity] duration-slow ease-out-soft group-data-[state=open]/menu:translate-y-0 group-data-[state=open]/menu:opacity-100 min-[480px]:gap-8 min-[480px]:px-6 min-[480px]:pt-24 min-[480px]:pb-10 motion-reduce:transition-none"
+      class="glass-strong relative m-auto flex h-full w-full -translate-y-full flex-col gap-6 overflow-y-auto px-4 pt-3 pb-8 opacity-0 transition-[transform,opacity] duration-slow ease-out-soft group-data-[state=open]/menu:translate-y-0 group-data-[state=open]/menu:opacity-100 sm:px-6 min-[480px]:gap-8 min-[480px]:pb-10 lg:px-8 motion-reduce:transition-none"
     >
       <div class="flex items-start justify-between gap-3">
         <a
@@ -65,15 +64,15 @@ const primaryPhone = site.company.phones[0]?.replace(/\s+/g, "") ?? "";
             alt=""
             width="48"
             height="48"
-            class="h-11 w-11 object-contain dark:[filter:none] [filter:invert(1)_brightness(0.2)]"
+            class="h-12 w-12 object-contain dark:[filter:none] [filter:invert(1)_brightness(0.2)]"
             loading="eager"
             decoding="async"
           />
           <span class="flex flex-col">
-            <span class="text-xs font-semibold uppercase tracking-eyebrow text-primary sm:text-sm">
+            <span class="text-[0.7rem] font-semibold uppercase tracking-eyebrow text-primary sm:text-[0.8rem]">
               {site.name}
             </span>
-            <span class="text-xs text-muted sm:text-sm">Interiéry a nábytek na míru</span>
+            <span class="text-xs leading-snug text-muted sm:text-sm">Interiéry a nábytek na míru</span>
           </span>
         </a>
 
@@ -111,7 +110,7 @@ const primaryPhone = site.company.phones[0]?.replace(/\s+/g, "") ?? "";
                   <a
                     href={withBase(item.href)}
                     class:list={[
-                      "mobile-menu__link group flex items-center border-b border-border py-3 font-display leading-[1.1] no-underline transition-colors duration-fast ease-standard",
+                      "mobile-menu__link group flex cursor-pointer items-center border-b border-border py-3 font-display leading-[1.1] no-underline transition-colors duration-fast ease-standard",
                       isActive ? "text-primary" : "text-foreground hover:text-primary focus-visible:text-primary",
                     ]}
                     aria-current={isActive ? "page" : undefined}
@@ -149,19 +148,6 @@ const primaryPhone = site.company.phones[0]?.replace(/\s+/g, "") ?? "";
             />
           </svg>
         </a>
-
-        {
-          primaryPhone && (
-            <a
-              href={`tel:${primaryPhone}`}
-              class="text-center text-[0.95rem] text-muted no-underline transition-colors duration-fast ease-standard hover:text-foreground focus-visible:text-foreground"
-              data-mobile-menu-link
-              aria-label={`Zavolat na ${site.company.phones[0]}`}
-            >
-              {site.company.phones[0]}
-            </a>
-          )
-        }
 
         <div class="flex justify-center border-t border-border pt-4">
           <SocialLinks variant="card" align="center" />
