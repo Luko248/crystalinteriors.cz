@@ -5,7 +5,7 @@ import SocialLinks from "./SocialLinks.astro";
 ---
 
 <footer
-  class="border-t border-border bg-surface/60 py-10 sm:py-12"
+  class="border-t border-white/10 bg-footer-bg py-10 text-footer-text sm:py-12"
   aria-labelledby="site-footer-heading"
 >
   <h2 id="site-footer-heading" class="sr-only">Patička stránky</h2>
@@ -14,14 +14,14 @@ import SocialLinks from "./SocialLinks.astro";
       <p class="text-sm font-medium uppercase tracking-eyebrow text-primary">
         {site.name}
       </p>
-      <p class="text-sm leading-6 text-muted">
+      <p class="text-sm leading-6">
         Interiéry a nábytek na míru pro byty, domy i komerční prostory.
       </p>
     </div>
 
     <div class="space-y-1">
-      <p class="text-xs uppercase tracking-eyebrow text-muted">Ateliér</p>
-      <p class="text-sm leading-6 text-foreground">{site.company.address}</p>
+      <p class="text-xs uppercase tracking-eyebrow text-footer-text/70">Ateliér</p>
+      <p class="text-sm leading-6 text-white">{site.company.address}</p>
       <a
         href={withBase("/kontakt/")}
         class="inline-block text-sm text-primary hover:underline"
@@ -32,18 +32,22 @@ import SocialLinks from "./SocialLinks.astro";
     </div>
 
     <div class="space-y-3 md:text-right">
-      <p class="text-xs uppercase tracking-eyebrow text-muted">Sledujte nás</p>
-      <SocialLinks variant="card" align="left" class="md:justify-end" />
+      <p class="text-xs uppercase tracking-eyebrow text-footer-text/70">Sledujte nás</p>
+      <SocialLinks
+        variant="card"
+        align="left"
+        class="md:justify-end [&_a]:border-white/20 [&_a]:text-white [&_a:hover]:border-primary [&_a:focus-visible]:border-primary"
+      />
     </div>
   </div>
 
-  <div class="mx-auto mt-8 grid max-w-7xl gap-3 border-t border-border px-4 pt-6 text-xs text-muted sm:mt-10 sm:grid-cols-[1fr_auto] sm:items-baseline sm:gap-6 sm:px-6 lg:px-8">
+  <div class="mx-auto mt-8 grid max-w-7xl gap-3 border-t border-white/10 px-4 pt-6 text-xs sm:mt-10 sm:grid-cols-[1fr_auto] sm:items-baseline sm:gap-6 sm:px-6 lg:px-8">
     <p class="leading-6">
-      <span class="block sm:inline">Provozovatel: <span class="text-foreground">{site.company.legalName}</span></span>
+      <span class="block sm:inline">Provozovatel: <span class="text-white">{site.company.legalName}</span></span>
       <span class="hidden sm:inline"> · </span>
-      <span class="block sm:inline">IČO: <span class="text-foreground">{site.company.ico}</span></span>
+      <span class="block sm:inline">IČO: <span class="text-white">{site.company.ico}</span></span>
       <span class="hidden sm:inline"> · </span>
-      <span class="block sm:inline">Sídlo: <span class="text-foreground">{site.company.registeredAddress}</span></span>
+      <span class="block sm:inline">Sídlo: <span class="text-white">{site.company.registeredAddress}</span></span>
     </p>
     <p class="leading-6 sm:text-right">© {new Date().getFullYear()} {site.name}. Všechna práva vyhrazena.</p>
   </div>
