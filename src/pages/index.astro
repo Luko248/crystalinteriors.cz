@@ -5,6 +5,7 @@ import SiteFooter from "@/components/SiteFooter.astro";
 import HeroSection from "@/components/HeroSection.astro";
 import SectionIntro from "@/components/SectionIntro.astro";
 import Button from "@/components/ui/Button.astro";
+import ArrowRightIcon from "@/components/icons/ArrowRightIcon.astro";
 import { site } from "@/data/site";
 import { cloudinaryImage } from "@/lib/cloudinary";
 import { withBase } from "@/lib/navigation";
@@ -89,6 +90,7 @@ const heroPreload = cloudinaryImage(site.hero.image, {
         <div class="mt-10 flex justify-center">
           <Button as="a" href={withBase("/sluzby/")} variant="outline" size="lg" fullWidth rel={undefined}>
             Zobrazit služby a ceník
+            <ArrowRightIcon class="h-5 w-5" />
           </Button>
         </div>
       </div>
@@ -135,6 +137,7 @@ const heroPreload = cloudinaryImage(site.hero.image, {
           class="lg:w-auto"
         >
           Domluvit schůzku
+          <ArrowRightIcon class="h-5 w-5" />
         </Button>
       </div>
     </section>

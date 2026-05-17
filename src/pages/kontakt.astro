@@ -4,6 +4,8 @@ import SiteHeader from "@/components/SiteHeader.astro";
 import SiteFooter from "@/components/SiteFooter.astro";
 import SectionIntro from "@/components/SectionIntro.astro";
 import Button from "@/components/ui/Button.astro";
+import EnvelopeIcon from "@/components/icons/EnvelopeIcon.astro";
+import PhoneIcon from "@/components/icons/PhoneIcon.astro";
 import { site } from "@/data/site";
 ---
 
@@ -76,9 +78,11 @@ import { site } from "@/data/site";
 
         <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <Button as="a" href={`mailto:${site.company.emails[0]}`} variant="primary" size="lg" fullWidth rel={undefined}>
+            <EnvelopeIcon class="h-5 w-5" />
             Napsat e-mail
           </Button>
           <Button as="a" href={`tel:${site.company.phones[0].replace(/\s+/g, "")}`} variant="outline" size="lg" fullWidth rel={undefined}>
+            <PhoneIcon class="h-5 w-5" />
             Zavolat
           </Button>
         </div>

@@ -1,6 +1,7 @@
 ---
 import { site } from "@/data/site";
 import { withBase } from "@/lib/navigation";
+import SocialLinks from "./SocialLinks.astro";
 ---
 
 <footer
@@ -30,33 +31,10 @@ import { withBase } from "@/lib/navigation";
       </a>
     </div>
 
-    <nav class="space-y-1 md:text-right" aria-label="Sociální sítě">
+    <div class="space-y-3 md:text-right">
       <p class="text-xs uppercase tracking-eyebrow text-muted">Sledujte nás</p>
-      <ul class="flex list-none gap-4 md:justify-end">
-        <li>
-          <a
-            href={site.social.facebook}
-            target="_blank"
-            rel="noreferrer"
-            class="text-sm text-foreground hover:text-primary"
-            aria-label={`${site.name} na Facebooku (otevře se v novém okně)`}
-          >
-            Facebook
-          </a>
-        </li>
-        <li>
-          <a
-            href={site.social.instagram}
-            target="_blank"
-            rel="noreferrer"
-            class="text-sm text-foreground hover:text-primary"
-            aria-label={`${site.name} na Instagramu (otevře se v novém okně)`}
-          >
-            Instagram
-          </a>
-        </li>
-      </ul>
-    </nav>
+      <SocialLinks variant="card" align="left" class="md:justify-end" />
+    </div>
   </div>
 
   <div class="mx-auto mt-8 max-w-7xl border-t border-border px-4 pt-6 text-xs text-muted sm:mt-10 sm:px-6 lg:px-8">

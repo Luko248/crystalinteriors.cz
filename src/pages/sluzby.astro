@@ -4,6 +4,7 @@ import SiteHeader from "@/components/SiteHeader.astro";
 import SiteFooter from "@/components/SiteFooter.astro";
 import SectionIntro from "@/components/SectionIntro.astro";
 import Button from "@/components/ui/Button.astro";
+import ArrowRightIcon from "@/components/icons/ArrowRightIcon.astro";
 import { site } from "@/data/site";
 import { withBase } from "@/lib/navigation";
 ---
@@ -71,6 +72,7 @@ import { withBase } from "@/lib/navigation";
         <div class="mt-10">
           <Button as="a" href={withBase("/kontakt/")} variant="primary" size="lg" fullWidth rel={undefined} class="sm:w-auto">
             Poptat projekt
+            <ArrowRightIcon class="h-5 w-5" />
           </Button>
         </div>
       </div>

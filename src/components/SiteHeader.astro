@@ -13,20 +13,22 @@ const activePath =
   pathname === "/" ? "/" : pathname.endsWith("/") ? pathname : `${pathname}/`;
 ---
 
-<header class="site-header glass">
-  <div class="site-header__inner">
+<header class="glass sticky top-0 z-[var(--z-header)] border-b border-border">
+  <div class="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6 lg:gap-8 lg:px-8">
     <a
       href={withBase("/")}
-      class="site-header__brand"
+      class="flex shrink-0 flex-col pr-2 no-underline"
       aria-label={`${site.name} — domovská stránka`}
     >
-      <span class="site-header__brand-name">{site.name}</span>
-      <span class="site-header__brand-tagline">
+      <span class="text-[0.75rem] font-semibold uppercase tracking-eyebrow text-primary sm:text-[0.8rem]">
+        {site.name}
+      </span>
+      <span class="hidden text-sm leading-snug text-muted sm:block">
         Interiéry a nábytek na míru
       </span>
     </a>
 
-    <nav class="site-header__nav" aria-label="Hlavní navigace">
+    <nav class="ml-auto hidden items-center gap-6 lg:flex xl:gap-8" aria-label="Hlavní navigace">
       {
         site.nav.map((item) => {
           const isActive = activePath === item.href;
@@ -35,8 +37,8 @@ const activePath =
               href={withBase(item.href)}
               aria-current={isActive ? "page" : undefined}
               class:list={[
-                "site-header__nav-link",
-                isActive && "site-header__nav-link--active",
+                "whitespace-nowrap text-sm no-underline transition-colors duration-fast ease-standard hover:text-foreground",
+                isActive ? "text-foreground" : "text-muted",
               ]}
             >
               {item.label}
@@ -47,123 +49,9 @@ const activePath =
       <ThemeToggle />
     </nav>
 
-    <div class="site-header__mobile-cluster">
+    <div class="ml-auto flex items-center gap-2 lg:hidden">
       <ThemeToggle />
       <MobileMenu pathname={pathname} />
     </div>
   </div>
 </header>
-
-<style>
-  .site-header {
-    position: sticky;
-    top: 0;
-    z-index: var(--z-header);
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .site-header__inner {
-    max-width: 80rem;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    gap: calc(var(--spacing) * 4);
-    padding: calc(var(--spacing) * 3) calc(var(--spacing) * 4);
-  }
-
-  @media (min-width: 640px) {
-    .site-header__inner {
-      padding-inline: calc(var(--spacing) * 6);
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .site-header__inner {
-      padding-inline: calc(var(--spacing) * 8);
-      gap: calc(var(--spacing) * 8);
-    }
-  }
-
-  .site-header__brand {
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    padding-right: calc(var(--spacing) * 2);
-    text-decoration: none;
-  }
-
-  .site-header__brand-name {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: var(--tracking-eyebrow);
-    text-transform: uppercase;
-    color: var(--color-primary);
-  }
-
-  @media (min-width: 640px) {
-    .site-header__brand-name {
-      font-size: 0.8rem;
-    }
-  }
-
-  .site-header__brand-tagline {
-    display: none;
-    font-size: 0.875rem;
-    color: var(--color-muted);
-    line-height: 1.4;
-  }
-
-  @media (min-width: 640px) {
-    .site-header__brand-tagline {
-      display: block;
-    }
-  }
-
-  .site-header__nav {
-    display: none;
-    margin-left: auto;
-    align-items: center;
-    gap: calc(var(--spacing) * 6);
-  }
-
-  @media (min-width: 1024px) {
-    .site-header__nav {
-      display: flex;
-    }
-  }
-
-  @media (min-width: 1280px) {
-    .site-header__nav {
-      gap: calc(var(--spacing) * 8);
-    }
-  }
-
-  .site-header__nav-link {
-    font-size: 0.875rem;
-    color: var(--color-muted);
-    white-space: nowrap;
-    text-decoration: none;
-    transition: color var(--duration-fast) var(--ease-standard);
-  }
-
-  .site-header__nav-link:hover {
-    color: var(--color-foreground);
-  }
-
-  .site-header__nav-link--active {
-    color: var(--color-foreground);
-  }
-
-  .site-header__mobile-cluster {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-    gap: calc(var(--spacing) * 2);
-  }
-
-  @media (min-width: 1024px) {
-    .site-header__mobile-cluster {
-      display: none;
-    }
-  }
-</style>

@@ -1,0 +1,21 @@
+---
+const { class: className = "w-5 h-5" } = Astro.props;
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  fill="none"
+  viewBox="0 0 24 24"
+  stroke-width="1.5"
+  stroke="currentColor"
+  class={className}
+  aria-hidden="true"
+  focusable="false"
+>
+  <circle cx="12" cy="12" r="9.25" stroke-linecap="round" stroke-linejoin="round"></circle>
+  <path
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    d="M13.6 21V13.5h2.4l.4-2.85h-2.8V8.92c0-.83.23-1.39 1.43-1.39H16.6V5a20 20 0 0 0-2.1-.11c-2.07 0-3.5 1.27-3.5 3.6v2.16H8.6v2.85h2.4V21"
+  ></path>
+</svg>
