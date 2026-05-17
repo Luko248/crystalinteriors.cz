@@ -3,9 +3,9 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import SiteHeader from "@/components/SiteHeader.astro";
 import SiteFooter from "@/components/SiteFooter.astro";
 import SectionIntro from "@/components/SectionIntro.astro";
-import Button from "@/components/ui/Button.astro";
 import EnvelopeIcon from "@/components/icons/EnvelopeIcon.astro";
 import PhoneIcon from "@/components/icons/PhoneIcon.astro";
+import MapPinIcon from "@/components/icons/MapPinIcon.astro";
 import { site } from "@/data/site";
 ---
 
@@ -26,72 +26,79 @@ import { site } from "@/data/site";
       text="Ať řešíte novou kuchyň, celý byt, dům nebo komerční prostor, první krok je jednoduchý: ozvěte se a sladíme rozsah, rozpočet i další postup."
     />
 
-    <div class="mt-10 grid gap-6 sm:mt-12 sm:gap-8 lg:grid-cols-[0.95fr_1.05fr]">
-      <address class="space-y-5 not-italic sm:space-y-6">
-        <section
-          class="rounded-2xl border border-border bg-surface p-6 sm:p-7"
-          aria-labelledby="contact-address-label"
-        >
-          <p id="contact-address-label" class="text-sm font-medium uppercase tracking-eyebrow text-primary">Ateliér</p>
-          <p class="mt-3 text-lg leading-7 text-foreground sm:text-xl sm:leading-8">{site.company.address}</p>
-        </section>
+    <ul class="mt-10 grid list-none gap-6 sm:mt-12 md:grid-cols-2">
+      {
+        site.company.contacts.map((contact) => {
+          const telHref = `tel:${contact.phone.replace(/\s+/g, "")}`;
+          return (
+            <li>
+              <article class="flex h-full flex-col rounded-2xl border border-border bg-surface p-6 shadow-card sm:p-8">
+                <header>
+                  <p class="text-xs font-medium uppercase tracking-eyebrow text-primary sm:text-sm">
+                    {contact.role}
+                  </p>
+                  <h2 class="mt-2 text-2xl text-foreground sm:text-3xl">
+                    {contact.name}
+                  </h2>
+                </header>
 
-        <section
-          class="rounded-2xl border border-border bg-surface p-6 sm:p-7"
-          aria-labelledby="contact-phone-label"
-        >
-          <p id="contact-phone-label" class="text-sm font-medium uppercase tracking-eyebrow text-primary">Telefon</p>
-          <ul class="mt-3 grid list-none gap-2">
-            {site.company.phones.map((phone) => (
-              <li>
-                <a
-                  href={`tel:${phone.replace(/\s+/g, "")}`}
-                  class="text-lg text-foreground hover:text-primary sm:text-xl"
-                  aria-label={`Zavolat na číslo ${phone}`}
-                >
-                  {phone}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
+                <div class="mt-6 flex flex-col gap-3">
+                  <a
+                    href={`mailto:${contact.email}`}
+                    class="group flex items-center gap-3 rounded-xl border border-border bg-background px-4 py-3 text-foreground transition-colors duration-fast ease-standard hover:border-primary hover:text-primary focus-visible:border-primary focus-visible:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    aria-label={`Napsat e-mail — ${contact.name} (${contact.email})`}
+                  >
+                    <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary transition-colors duration-fast ease-standard group-hover:bg-primary group-hover:text-white">
+                      <EnvelopeIcon class="h-4 w-4" />
+                    </span>
+                    <span class="break-all text-sm sm:text-base">{contact.email}</span>
+                  </a>
 
-        <section
-          class="rounded-2xl border border-border bg-surface p-6 sm:p-7"
-          aria-labelledby="contact-email-label"
-        >
-          <p id="contact-email-label" class="text-sm font-medium uppercase tracking-eyebrow text-primary">E-mail</p>
-          <ul class="mt-3 grid list-none gap-2">
-            {site.company.emails.map((email) => (
-              <li>
-                <a
-                  href={`mailto:${email}`}
-                  class="break-words text-base text-foreground hover:text-primary sm:text-lg"
-                  aria-label={`Napsat e-mail na ${email}`}
-                >
-                  {email}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
+                  <a
+                    href={telHref}
+                    class="group flex items-center gap-3 rounded-xl border border-border bg-background px-4 py-3 text-foreground transition-colors duration-fast ease-standard hover:border-primary hover:text-primary focus-visible:border-primary focus-visible:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    aria-label={`Zavolat — ${contact.name} (${contact.phone})`}
+                  >
+                    <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary transition-colors duration-fast ease-standard group-hover:bg-primary group-hover:text-white">
+                      <PhoneIcon class="h-4 w-4" />
+                    </span>
+                    <span class="text-sm sm:text-base">{contact.phone}</span>
+                  </a>
+                </div>
+              </article>
+            </li>
+          );
+        })
+      }
+    </ul>
 
-        <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-          <Button as="a" href={`mailto:${site.company.emails[0]}`} variant="primary" size="lg" fullWidth rel={undefined}>
-            <EnvelopeIcon class="h-5 w-5" />
-            Napsat e-mail
-          </Button>
-          <Button as="a" href={`tel:${site.company.phones[0].replace(/\s+/g, "")}`} variant="outline" size="lg" fullWidth rel={undefined}>
-            <PhoneIcon class="h-5 w-5" />
-            Zavolat
-          </Button>
+    <div class="mt-6 grid gap-6 sm:mt-8 sm:gap-8 lg:grid-cols-[0.6fr_1.4fr]">
+      <address
+        class="flex h-full flex-col rounded-2xl border border-border bg-surface p-6 not-italic shadow-card sm:p-7 lg:self-start"
+        aria-labelledby="contact-address-label"
+      >
+        <div class="flex items-center gap-3">
+          <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+            <MapPinIcon class="h-5 w-5" />
+          </span>
+          <p id="contact-address-label" class="text-xs font-medium uppercase tracking-eyebrow text-primary sm:text-sm">
+            Ateliér
+          </p>
         </div>
+
+        <p class="mt-4 text-base leading-7 text-muted sm:text-lg sm:leading-8">
+          Najdete nás v Brně-Lesné. Rádi vám pomůžeme s návrhem i realizací — stavte se u nás ve vzorkovně nebo si domluvte schůzku.
+        </p>
+
+        <p class="mt-4 text-lg leading-7 text-foreground sm:text-xl sm:leading-8">
+          {site.company.address}
+        </p>
       </address>
 
-      <div class="overflow-hidden rounded-3xl border border-border bg-surface shadow-card">
+      <div class="self-start overflow-hidden rounded-3xl border border-border shadow-card">
         <iframe
           src={site.company.mapEmbed}
-          class="h-[360px] w-full sm:h-[460px] lg:h-[520px]"
+          class="block h-[360px] w-full sm:h-[460px] lg:h-[520px]"
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
           title="Mapa — sídlo Crystal Interiors, Dusíkova 900/3c, Brno-Lesná"
