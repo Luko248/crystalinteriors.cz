@@ -10,15 +10,31 @@
   body {
     min-height: 100vh;
     background:
-      radial-gradient(circle at top, rgba(173, 141, 94, 0.1), transparent 28%),
+      radial-gradient(
+        circle at top,
+        color-mix(in oklch, var(--color-accent) 12%, transparent),
+        transparent 28%
+      ),
       var(--color-background);
   }
 
   [data-theme="dark"] body {
     background:
-      radial-gradient(circle at top, rgba(173, 141, 94, 0.12), transparent 24%),
-      radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.04), transparent 22%),
+      radial-gradient(
+        circle at top,
+        color-mix(in oklch, var(--color-accent) 14%, transparent),
+        transparent 24%
+      ),
+      radial-gradient(
+        circle at bottom left,
+        color-mix(in oklch, var(--color-white) 4%, transparent),
+        transparent 22%
+      ),
       var(--color-background);
+  }
+
+  body[data-scroll-lock] {
+    overflow: hidden;
   }
 
   h1,
@@ -36,15 +52,15 @@
   a,
   button {
     transition:
-      color 180ms ease,
-      background-color 180ms ease,
-      border-color 180ms ease,
-      transform 180ms ease,
-      box-shadow 180ms ease;
+      color var(--duration-fast) var(--ease-standard),
+      background-color var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard),
+      transform var(--duration-fast) var(--ease-standard),
+      box-shadow var(--duration-fast) var(--ease-standard);
   }
 
   ::selection {
-    background: color-mix(in srgb, var(--color-primary) 32%, transparent);
+    background: color-mix(in oklch, var(--color-primary) 32%, transparent);
   }
 
   iframe {
@@ -54,8 +70,61 @@
 
 @layer components {
   .shadow-soft {
-    box-shadow:
-      0 1px 2px rgba(0, 0, 0, 0.04),
-      0 16px 40px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--shadow-soft);
+  }
+
+  /* Glass surface — frosted-blur panel used on hover states,
+     headers, and overlays. Tokenized so themes inherit. */
+  .glass {
+    background: color-mix(in oklch, var(--color-background) 70%, transparent);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid var(--color-border);
+  }
+
+  [data-theme="dark"] .glass {
+    background: color-mix(in oklch, var(--color-ink) 60%, transparent);
+  }
+
+  .glass-strong {
+    background: color-mix(in oklch, var(--color-background) 86%, transparent);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--color-border-strong);
+  }
+
+  [data-theme="dark"] .glass-strong {
+    background: color-mix(in oklch, var(--color-ink-deep) 80%, transparent);
+  }
+
+  /* Subtle frosted overlay that reveals on hover. Add the
+     class to a card; the glass appears on :hover. */
+  .glass-hover {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .glass-hover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: color-mix(in oklch, var(--color-white) 8%, transparent);
+    backdrop-filter: blur(8px) saturate(140%);
+    -webkit-backdrop-filter: blur(8px) saturate(140%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--duration-standard) var(--ease-out-soft);
+    z-index: 1;
+  }
+
+  .glass-hover:hover::before,
+  .glass-hover:focus-within::before {
+    opacity: 1;
+  }
+
+  .glass-hover > * {
+    position: relative;
+    z-index: 2;
   }
 }

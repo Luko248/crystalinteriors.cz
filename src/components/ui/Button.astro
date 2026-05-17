@@ -33,17 +33,17 @@ const button = tv({
   variants: {
     variant: {
       primary:
-        "bg-[var(--color-primary)] text-[var(--color-white)] hover:bg-[var(--color-primary-hover)] shadow-sm hover:shadow-md",
+        "bg-primary text-white hover:bg-primary-hover shadow-card hover:shadow-lifted",
       secondary:
-        "bg-[var(--color-secondary)] text-[var(--color-foreground)] hover:bg-[var(--color-secondary-hover)] shadow-sm hover:shadow-md",
+        "bg-secondary text-foreground hover:bg-secondary-hover shadow-card hover:shadow-lifted",
       outline:
-        "bg-transparent border border-[var(--color-primary)] text-[var(--color-foreground)] hover:bg-[var(--color-primary)] hover:text-[var(--color-white)]",
+        "bg-transparent border border-primary text-foreground hover:bg-primary hover:text-white",
       ghost:
-        "bg-transparent text-[var(--color-foreground)] hover:bg-black/5 dark:hover:bg-white/10",
+        "bg-transparent text-foreground hover:bg-black/5 dark:hover:bg-white/10",
       "hero-primary":
-        "border border-[var(--color-primary)] bg-[var(--color-primary)] text-[var(--color-white)] shadow-lg transition-shadow duration-300 text-lg uppercase tracking-[0.14em] hover:bg-[var(--color-primary-hover)] focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent",
+        "border border-primary bg-primary text-white shadow-lifted text-lg uppercase tracking-button hover:bg-primary-hover focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent",
       "hero-outline":
-        "bg-transparent border backdrop-blur-sm text-[var(--color-white)] text-lg uppercase tracking-[0.14em] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-transparent",
+        "bg-transparent border border-white/34 text-white backdrop-blur-sm text-lg uppercase tracking-button hover:border-white hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-transparent",
     },
     size: {
       sm: "px-3 py-1.5 text-xs md:px-4 md:py-2 md:text-sm",

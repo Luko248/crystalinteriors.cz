@@ -6,7 +6,7 @@
   "type": "module",
   "license": "UNLICENSED",
   "dependencies": {
-    "@fancyapps/ui": "^6.1.6",
+    "@fancyapps/ui": "^6.1.14",
     "@googlemaps/js-api-loader": "^2.0.2",
     "cloudinary": "^2.8.0",
     "tailwind-merge": "^3.4.0",

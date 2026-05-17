@@ -8,25 +8,36 @@ import Button from "@/components/ui/Button.astro";
 import { site } from "@/data/site";
 import { cloudinaryImage } from "@/lib/cloudinary";
 import { withBase } from "@/lib/navigation";
+
+const heroPreload = cloudinaryImage(site.hero.image, {
+  width: 1800,
+  height: 1200,
+  fit: "fill",
+});
 ---
 
 <BaseLayout
   title="Interiéry a nábytek na míru"
   description="Moderní redesign Crystal Interiors pro návrhy a realizace interiérů, kuchyní a zakázkového nábytku v Brně."
   pathname="/"
+  preloadImage={heroPreload}
 >
   <SiteHeader pathname={Astro.url.pathname} />
-  <main>
+  <main id="main">
     <HeroSection />
 
-    <section class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+    <section
+      class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28"
+      aria-labelledby="approach-title"
+    >
       <div class="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <SectionIntro
           eyebrow="Jak pracujeme"
           title={site.home.introTitle}
           text={site.home.introText}
+          headingId="approach-title"
         />
-        <div class="rounded-[2rem] border border-black/8 bg-surface p-8 shadow-sm dark:border-white/8">
+        <div class="rounded-3xl border border-border bg-surface p-8 shadow-card">
           <p class="text-2xl leading-10 text-foreground md:text-3xl">
             {site.home.businessSentence}
           </p>
@@ -34,37 +45,46 @@ import { withBase } from "@/lib/navigation";
       </div>
     </section>
 
-    <section class="border-y border-black/8 bg-surface py-20 dark:border-white/8 lg:py-28">
+    <section
+      class="border-y border-border bg-surface py-20 lg:py-28"
+      aria-labelledby="services-title"
+    >
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionIntro
           eyebrow="Služby"
           title="Od kuchyní po komerční interiéry"
           text="Navrhujeme prostory podle toho, jak se skutečně používají. Estetiku držíme ve stejné disciplíně jako funkci, rozpočet a výrobu."
           align="center"
+          headingId="services-title"
         />
 
-        <div class="mt-14 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <ul class="mt-14 grid list-none gap-6 md:grid-cols-2 xl:grid-cols-3">
           {
             site.services.map((service) => (
-              <article class="overflow-hidden rounded-[1.5rem] border border-black/8 bg-background shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:border-white/8">
-                <img
-                  src={cloudinaryImage(service.image, {
-                    width: 900,
-                    height: 720,
-                    fit: "fill",
-                  })}
-                  alt={service.title}
-                  class="aspect-[4/3] w-full object-cover"
-                  loading="lazy"
-                />
-                <div class="space-y-3 p-6">
-                  <h3 class="text-2xl text-foreground">{service.title}</h3>
-                  <p class="leading-7 text-muted">{service.text}</p>
-                </div>
-              </article>
+              <li>
+                <article class="glass-hover h-full overflow-hidden rounded-xl border border-border bg-background shadow-card transition hover:-translate-y-1 hover:shadow-lifted">
+                  <img
+                    src={cloudinaryImage(service.image, {
+                      width: 900,
+                      height: 720,
+                      fit: "fill",
+                    })}
+                    alt={`Ukázka služby — ${service.title}`}
+                    width="900"
+                    height="720"
+                    class="aspect-[4/3] w-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div class="space-y-3 p-6">
+                    <h3 class="text-2xl text-foreground">{service.title}</h3>
+                    <p class="leading-7 text-muted">{service.text}</p>
+                  </div>
+                </article>
+              </li>
             ))
           }
-        </div>
+        </ul>
 
         <div class="mt-10 flex justify-center">
           <Button as="a" href={withBase("/sluzby/")} variant="outline" size="lg" rel={undefined}>
@@ -74,28 +94,34 @@ import { withBase } from "@/lib/navigation";
       </div>
     </section>
 
-    <section class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
-      <div class="grid gap-8 lg:grid-cols-4">
+    <section
+      class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28"
+      aria-label="Náš přístup"
+    >
+      <ul class="grid list-none gap-8 lg:grid-cols-4">
         {
           site.process.map((item) => (
-            <article class="rounded-[1.5rem] border border-black/8 bg-surface p-6 dark:border-white/8">
-              <p class="text-sm font-medium uppercase tracking-[0.22em] text-primary">
+            <li class="rounded-xl border border-border bg-surface p-6">
+              <p class="text-sm font-medium uppercase tracking-eyebrow text-primary">
                 {item.title}
               </p>
               <p class="mt-4 leading-8 text-muted">{item.text}</p>
-            </article>
+            </li>
           ))
         }
-      </div>
+      </ul>
     </section>
 
-    <section class="overflow-hidden bg-[#171715] py-20 text-white lg:py-24">
+    <section
+      class="overflow-hidden bg-ink py-20 text-white lg:py-24"
+      aria-labelledby="cta-title"
+    >
       <div class="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 px-4 sm:px-6 lg:flex-row lg:items-center lg:px-8">
         <div class="max-w-3xl space-y-4">
-          <p class="text-sm font-medium uppercase tracking-[0.22em] text-white/60">
+          <p class="text-sm font-medium uppercase tracking-eyebrow text-white/60">
             Další krok
           </p>
-          <h2 class="text-3xl leading-tight md:text-5xl">
+          <h2 id="cta-title" class="text-3xl leading-tight md:text-5xl">
             Vytvoříme interiér přesně pro váš způsob bydlení nebo podnikání.
           </h2>
         </div>

@@ -1,29 +1,110 @@
 @import "tailwindcss";
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
+/* ============================================================
+ * Crystal Interiors — design tokens
+ * Colors:  OKLCH only.
+ * Spacing: rem-based (Tailwind v4 derives p-1, p-2, … from --spacing).
+ * Naming:  semantic over decorative. Tweak here, not in components.
+ * ============================================================ */
+
 @theme {
+  /* Surfaces -------------------------------------------------- */
   --color-background: oklch(0.975 0.006 85);
   --color-surface: oklch(0.94 0.008 85);
+  --color-surface-elevated: oklch(0.98 0.005 85);
+
+  /* Text ------------------------------------------------------ */
   --color-foreground: oklch(0.2 0.008 80);
   --color-muted: oklch(0.41 0.01 80);
+  --color-subtle: oklch(0.55 0.01 80);
+
+  /* Borders --------------------------------------------------- */
+  --color-border: oklch(0.2 0.008 80 / 0.08);
+  --color-border-strong: oklch(0.2 0.008 80 / 0.16);
+
+  /* Brand ----------------------------------------------------- */
   --color-primary: oklch(0.42 0.055 65);
   --color-primary-hover: oklch(0.36 0.05 65);
+  --color-primary-soft: oklch(0.92 0.018 65);
+  --color-accent: oklch(0.68 0.07 73);
+
   --color-secondary: oklch(0.78 0.035 155);
   --color-secondary-hover: oklch(0.72 0.035 155);
+
+  /* Ink — used on dark sections that stay dark in both themes  */
+  --color-ink: oklch(0.21 0.004 80);
+  --color-ink-deep: oklch(0.17 0.003 80);
+
+  /* Static ---------------------------------------------------- */
   --color-white: oklch(1 0 0);
   --color-black: oklch(0 0 0);
+
+  /* Typography ------------------------------------------------ */
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Manrope", var(--font-sans);
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.08em;
+  --tracking-button: 0.14em;
+  --tracking-eyebrow: 0.22em;
+  --tracking-overline: 0.36em;
+
+  /* Spacing — rem-based scale; Tailwind derives p-1..p-96 etc. */
+  --spacing: 0.25rem;
+
+  /* Radii (rem) ----------------------------------------------- */
+  --radius-xs: 0.375rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 1.75rem;
+  --radius-3xl: 2rem;
+  --radius-full: 9999px;
+
+  /* Shadows --------------------------------------------------- */
+  --shadow-soft: 0 1px 2px oklch(0 0 0 / 0.04), 0 16px 40px oklch(0 0 0 / 0.08);
+  --shadow-card: 0 1px 3px oklch(0 0 0 / 0.05);
+  --shadow-lifted: 0 12px 32px oklch(0 0 0 / 0.12);
+
+  /* Motion ---------------------------------------------------- */
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --duration-fast: 150ms;
+  --duration-standard: 300ms;
+  --duration-slow: 500ms;
+
+  /* Z-index --------------------------------------------------- */
+  --z-base: 1;
+  --z-sticky: 40;
+  --z-header: 50;
+  --z-overlay: 90;
+  --z-modal: 100;
 }
 
 [data-theme="dark"] {
   --color-background: oklch(0.16 0.006 85);
   --color-surface: oklch(0.22 0.008 85);
+  --color-surface-elevated: oklch(0.25 0.008 85);
+
   --color-foreground: oklch(0.95 0.004 85);
   --color-muted: oklch(0.78 0.008 85);
+  --color-subtle: oklch(0.62 0.008 85);
+
+  --color-border: oklch(1 0 0 / 0.08);
+  --color-border-strong: oklch(1 0 0 / 0.16);
+
   --color-primary: oklch(0.57 0.05 68);
   --color-primary-hover: oklch(0.51 0.05 68);
+  --color-primary-soft: oklch(0.32 0.04 68);
+
   --color-secondary: oklch(0.73 0.032 155);
   --color-secondary-hover: oklch(0.67 0.032 155);
+
+  --color-accent: oklch(0.7 0.08 73);
+
+  /* Ink stays the same on both themes — it is the brand ink     */
 }

@@ -1,0 +1,51 @@
+---
+export interface Props {
+  category: {
+    slug: string;
+    tag: string;
+    title: string;
+    text: string;
+  };
+  index: number;
+}
+
+const { category, index } = Astro.props;
+const galleryId = `references-${category.slug}`;
+const headingId = `${galleryId}-title`;
+const descriptionId = `${galleryId}-description`;
+---
+
+<section
+  class="grid gap-8 border-t border-border py-12 first:border-t-0 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14"
+  data-references-section
+  data-tag={category.tag}
+  data-gallery-id={galleryId}
+  data-title={category.title}
+  aria-labelledby={headingId}
+  aria-describedby={descriptionId}
+>
+  <div class="space-y-4 lg:sticky lg:top-28 lg:self-start">
+    <p class="text-sm font-medium uppercase tracking-eyebrow text-primary">
+      Sekce {String(index + 1).padStart(2, "0")}
+    </p>
+    <h2 id={headingId} class="text-3xl leading-tight text-foreground">{category.title}</h2>
+    <p id={descriptionId} class="text-base leading-8 text-muted">{category.text}</p>
+  </div>
+
+  <div
+    class="py-4"
+    aria-busy="true"
+    aria-live="polite"
+    data-references-live
+  >
+    <p class="text-sm leading-7 text-muted" data-references-status>
+      Načítání referencí…
+    </p>
+    <ul
+      class="hidden list-none columns-1 gap-6 sm:columns-2 lg:columns-3"
+      data-references-grid
+      aria-label={`Galerie — ${category.title}`}
+    >
+    </ul>
+  </div>
+</section>

@@ -136,54 +136,48 @@ export const site = {
       "Neprodáváme jen vizualizaci. Dodáváme jistotu, že dispozice, materiály a výroba dávají dohromady celek, který obstojí v běžném provozu.",
     ],
   },
-  projects: [
+  references: [
     {
-      folder: "pudni-nastavba-brno-lisen",
-      title: "Půdní nástavba v Brně-Líšni",
-      subtitle: "Vizualizace koupelny a WC",
+      slug: "kuchyne",
+      tag: "kuchyne",
+      title: "Kuchyně",
       text:
-        "Koupelna v teplých neutrálních tónech s chytrým úložným řešením, vestavnými spotřebiči a detaily navrženými pro snadnou údržbu.",
-      images: [
-        "https://d9775ec23a.clvaw-cdnwnd.com/06dde8fa305f9cdafdc34740aa3f3c92/200000358-c392fc3931/Koupelna_001_pohled3%20-%20kopie.png",
-        "https://d9775ec23a.clvaw-cdnwnd.com/06dde8fa305f9cdafdc34740aa3f3c92/200000359-64e9c64e9f/Koupelna_001_pohled3.png",
-        "https://d9775ec23a.clvaw-cdnwnd.com/06dde8fa305f9cdafdc34740aa3f3c92/200000360-136e0136e3/Koupelna_001_pohled5.png",
-      ],
+        "Kuchyně řešíme od dispozice a ergonomie přes materiály a spotřebiče až po čisté detaily, které vydrží každodenní provoz.",
     },
     {
-      folder: "kuchynsky-koncept-rodinny-dum",
-      title: "Kuchyňský koncept pro rodinný dům",
-      subtitle: "Návrh dispozice, ergonomie a materiálů",
+      slug: "obyvaky",
+      tag: "obyvaky",
+      title: "Obývací pokoje",
       text:
-        "Kuchyně navržená pro každodenní provoz s důrazem na logické zóny, čistou linku detailů a dlouhou životnost vybavení.",
-      images: [
-        "https://d9775ec23a.clvaw-cdnwnd.com/06dde8fa305f9cdafdc34740aa3f3c92/200000191-c6da0c6da3/vizu%20kuchyn%C4%9B%20_1.png",
-        "https://d9775ec23a.clvaw-cdnwnd.com/06dde8fa305f9cdafdc34740aa3f3c92/200000016-72a8f72a91/Bartlov%C3%A1%20vizualizace%20kuchyn%C4%9B%201_Watermarked%20-%20kopie.png",
-        "https://d9775ec23a.clvaw-cdnwnd.com/06dde8fa305f9cdafdc34740aa3f3c92/200000296-08d4008d43/B%C5%99%C3%ADnkov%C3%A1_vizu_pohled1_Watermarked.png",
-      ],
+        "Obývací prostory s důrazem na pohodlí, reprezentativní výraz a chytré ukládání pro skutečný rytmus domácnosti.",
     },
     {
-      folder: "obytny-prostor-zakazkovy-nabytek",
-      title: "Obytný prostor se zakázkovým nábytkem",
-      subtitle: "Návrh interiéru a návazných úložných prvků",
+      slug: "loznice",
+      tag: "loznice",
+      title: "Ložnice a šatny",
       text:
-        "Spojení klidné atmosféry, reprezentativního výrazu a nábytku navrženého přesně pro dispozici i rytmus domácnosti.",
-      images: [
-        "https://d9775ec23a.clvaw-cdnwnd.com/06dde8fa305f9cdafdc34740aa3f3c92/200000246-71f9c71f9f/gruberova%20obyvak1_Watermarked.png",
-        "https://d9775ec23a.clvaw-cdnwnd.com/06dde8fa305f9cdafdc34740aa3f3c92/200000238-b5ddeb5de1/11.02.2021%20varianta%20k%20podpisu%201_Watermarked.png",
-        "https://d9775ec23a.clvaw-cdnwnd.com/06dde8fa305f9cdafdc34740aa3f3c92/200000262-9ac659ac68/IMG_7356%20%281%29_Watermarked.jpeg",
-      ],
+        "Klidné zázemí pro odpočinek s úložnými systémy navrženými přesně na míru dispozice a věcí, které v nich žijí.",
     },
     {
-      folder: "studentsky-pokoj-rodinny-dum",
-      title: "Studentský pokoj v rodinném domě",
-      subtitle: "Návrh a následná realizace",
+      slug: "detske-pokoje",
+      tag: "detske-pokoje",
+      title: "Dětské a studentské pokoje",
       text:
-        "Pokoj navržený jako dlouhodobě udržitelný prostor pro odpočinek, studium i ukládání věcí, s návazností na skutečnou výrobu.",
-      images: [
-        "https://d9775ec23a.clvaw-cdnwnd.com/06dde8fa305f9cdafdc34740aa3f3c92/200000377-5845458456/IMG_20210531_140541%20%281%29.jpeg",
-        "https://d9775ec23a.clvaw-cdnwnd.com/06dde8fa305f9cdafdc34740aa3f3c92/200000378-62f0462f06/IMG_20210531_140543%20%281%29.jpeg",
-        "https://d9775ec23a.clvaw-cdnwnd.com/06dde8fa305f9cdafdc34740aa3f3c92/200000386-048e4048e7/vizualizace_18.1.2021_1pohled_Watermarked.png",
-      ],
+        "Pokoje navržené tak, aby rostly s dítětem. Ukládání, studijní zóna i odpočinek v jednom funkčním celku.",
+    },
+    {
+      slug: "koupelny",
+      tag: "koupelny",
+      title: "Koupelny",
+      text:
+        "Koupelny s důrazem na provoz, údržbu a detail. Materiály a zařizovací předměty volíme s ohledem na dlouhou životnost.",
+    },
+    {
+      slug: "komercni",
+      tag: "komercni",
+      title: "Kanceláře a komerční interiéry",
+      text:
+        "Pracovní, obchodní a gastro prostory navržené tak, aby podporovaly výkon, provoz i dojem z vaší značky.",
     },
   ],
 };
