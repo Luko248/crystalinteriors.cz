@@ -91,7 +91,7 @@ import { site } from "@/data/site";
     link.dataset.caption = alt;
     link.setAttribute("aria-label", `Otevřít obrázek — ${alt}`);
     link.className =
-      "group relative block overflow-hidden rounded-xl bg-surface shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl";
+      "glass-hover group relative block overflow-hidden rounded-lg bg-surface shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lifted";
     link.innerHTML = `
       <img
         src="${escape(thumb)}"

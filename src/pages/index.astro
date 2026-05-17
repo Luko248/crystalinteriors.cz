@@ -37,7 +37,7 @@ const heroPreload = cloudinaryImage(site.hero.image, {
           text={site.home.introText}
           headingId="approach-title"
         />
-        <div class="rounded-[2rem] border border-black/8 bg-surface p-8 shadow-sm dark:border-white/8">
+        <div class="rounded-3xl border border-border bg-surface p-8 shadow-card">
           <p class="text-2xl leading-10 text-foreground md:text-3xl">
             {site.home.businessSentence}
           </p>
@@ -46,7 +46,7 @@ const heroPreload = cloudinaryImage(site.hero.image, {
     </section>
 
     <section
-      class="border-y border-black/8 bg-surface py-20 dark:border-white/8 lg:py-28"
+      class="border-y border-border bg-surface py-20 lg:py-28"
       aria-labelledby="services-title"
     >
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -62,7 +62,7 @@ const heroPreload = cloudinaryImage(site.hero.image, {
           {
             site.services.map((service) => (
               <li>
-                <article class="h-full overflow-hidden rounded-[1.5rem] border border-black/8 bg-background shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:border-white/8">
+                <article class="glass-hover h-full overflow-hidden rounded-xl border border-border bg-background shadow-card transition hover:-translate-y-1 hover:shadow-lifted">
                   <img
                     src={cloudinaryImage(service.image, {
                       width: 900,
@@ -101,8 +101,8 @@ const heroPreload = cloudinaryImage(site.hero.image, {
       <ul class="grid list-none gap-8 lg:grid-cols-4">
         {
           site.process.map((item) => (
-            <li class="rounded-[1.5rem] border border-black/8 bg-surface p-6 dark:border-white/8">
-              <p class="text-sm font-medium uppercase tracking-[0.22em] text-primary">
+            <li class="rounded-xl border border-border bg-surface p-6">
+              <p class="text-sm font-medium uppercase tracking-eyebrow text-primary">
                 {item.title}
               </p>
               <p class="mt-4 leading-8 text-muted">{item.text}</p>
@@ -113,12 +113,12 @@ const heroPreload = cloudinaryImage(site.hero.image, {
     </section>
 
     <section
-      class="overflow-hidden bg-[#171715] py-20 text-white lg:py-24"
+      class="overflow-hidden bg-ink py-20 text-white lg:py-24"
       aria-labelledby="cta-title"
     >
       <div class="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 px-4 sm:px-6 lg:flex-row lg:items-center lg:px-8">
         <div class="max-w-3xl space-y-4">
-          <p class="text-sm font-medium uppercase tracking-[0.22em] text-white/60">
+          <p class="text-sm font-medium uppercase tracking-eyebrow text-white/60">
             Další krok
           </p>
           <h2 id="cta-title" class="text-3xl leading-tight md:text-5xl">

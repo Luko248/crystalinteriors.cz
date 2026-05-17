@@ -27,8 +27,8 @@ import { withBase } from "@/lib/navigation";
       />
 
       <div class="mt-12 grid gap-6 lg:grid-cols-2">
-        <article class="rounded-[1.75rem] border border-black/8 bg-surface p-8 dark:border-white/8">
-          <p class="text-sm font-medium uppercase tracking-[0.22em] text-primary">
+        <article class="glass-hover rounded-2xl border border-border bg-surface p-8">
+          <p class="text-sm font-medium uppercase tracking-eyebrow text-primary">
             Realizace interiérů a nábytku na míru
           </p>
           <h2 class="mt-4 text-3xl text-foreground">Od návrhu po montáž</h2>
@@ -37,8 +37,8 @@ import { withBase } from "@/lib/navigation";
           </p>
         </article>
 
-        <article class="rounded-[1.75rem] border border-black/8 bg-surface p-8 dark:border-white/8">
-          <p class="text-sm font-medium uppercase tracking-[0.22em] text-primary">
+        <article class="glass-hover rounded-2xl border border-border bg-surface p-8">
+          <p class="text-sm font-medium uppercase tracking-eyebrow text-primary">
             Návrhy interiérů 2D a 3D
           </p>
           <h2 class="mt-4 text-3xl text-foreground">Jistota před realizací</h2>
@@ -49,7 +49,7 @@ import { withBase } from "@/lib/navigation";
       </div>
     </section>
 
-    <section class="border-y border-black/8 bg-surface py-16 dark:border-white/8 lg:py-24">
+    <section class="border-y border-border bg-surface py-16 lg:py-24">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionIntro
           eyebrow="Ceník vizualizací"
@@ -60,7 +60,7 @@ import { withBase } from "@/lib/navigation";
         <div class="mt-12 grid gap-4 md:grid-cols-2">
           {
             site.pricing.map((item) => (
-              <div class="flex items-center justify-between gap-4 rounded-2xl border border-black/8 bg-background px-5 py-4 dark:border-white/8">
+              <div class="flex items-center justify-between gap-4 rounded-xl border border-border bg-background px-5 py-4">
                 <span class="leading-7 text-foreground">{item.title}</span>
                 <strong class="shrink-0 text-primary">{item.price}</strong>
               </div>

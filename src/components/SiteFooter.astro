@@ -4,13 +4,13 @@ import { withBase } from "@/lib/navigation";
 ---
 
 <footer
-  class="border-t border-black/8 bg-white/70 py-12 dark:border-white/8 dark:bg-[#121210]"
+  class="border-t border-border bg-surface/60 py-12"
   aria-labelledby="site-footer-heading"
 >
   <h2 id="site-footer-heading" class="sr-only">Patička stránky</h2>
   <div class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 md:grid-cols-[1.2fr_1fr_1fr] md:items-start lg:px-8">
     <div class="space-y-2">
-      <p class="text-sm font-medium uppercase tracking-[0.24em] text-primary">
+      <p class="text-sm font-medium uppercase tracking-eyebrow text-primary">
         {site.name}
       </p>
       <p class="text-sm leading-6 text-muted">
@@ -19,7 +19,7 @@ import { withBase } from "@/lib/navigation";
     </div>
 
     <div class="space-y-1">
-      <p class="text-xs uppercase tracking-[0.18em] text-muted">Ateliér</p>
+      <p class="text-xs uppercase tracking-eyebrow text-muted">Ateliér</p>
       <p class="text-sm leading-6 text-foreground">{site.company.address}</p>
       <a
         href={withBase("/kontakt/")}
@@ -31,7 +31,7 @@ import { withBase } from "@/lib/navigation";
     </div>
 
     <nav class="space-y-1 md:text-right" aria-label="Sociální sítě">
-      <p class="text-xs uppercase tracking-[0.18em] text-muted">Sledujte nás</p>
+      <p class="text-xs uppercase tracking-eyebrow text-muted">Sledujte nás</p>
       <ul class="flex list-none gap-4 md:justify-end">
         <li>
           <a
@@ -59,7 +59,7 @@ import { withBase } from "@/lib/navigation";
     </nav>
   </div>
 
-  <div class="mx-auto mt-10 max-w-7xl border-t border-black/8 px-4 pt-6 text-xs text-muted dark:border-white/8 sm:px-6 lg:px-8">
+  <div class="mx-auto mt-10 max-w-7xl border-t border-border px-4 pt-6 text-xs text-muted sm:px-6 lg:px-8">
     <p>© {new Date().getFullYear()} {site.name}. Všechna práva vyhrazena.</p>
   </div>
 </footer>

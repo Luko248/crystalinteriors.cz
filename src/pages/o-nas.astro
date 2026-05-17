@@ -19,7 +19,7 @@ import { site } from "@/data/site";
   <main id="main" class="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
     <SectionIntro eyebrow="O studiu" title={site.about.title} text={site.about.lead} />
 
-    <div class="mt-12 space-y-8 rounded-[2rem] border border-black/8 bg-surface p-8 dark:border-white/8 md:p-12">
+    <div class="mt-12 space-y-8 rounded-3xl border border-border bg-surface p-8 md:p-12">
       {site.about.paragraphs.map((paragraph) => <p class="text-lg leading-9 text-muted">{paragraph}</p>)}
     </div>
   </main>
