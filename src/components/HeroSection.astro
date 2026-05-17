@@ -21,29 +21,30 @@ import Button from "./ui/Button.astro";
   </div>
 
   <div class="hero__content">
-    <div class="space-y-8 text-white">
+    <div class="space-y-6 text-white sm:space-y-8">
       <p class="inline-flex items-center gap-3 text-xs font-medium uppercase tracking-overline text-white/72">
-        <span class="h-px w-10 bg-white/40"></span>
+        <span class="h-px w-8 bg-white/40 sm:w-10"></span>
         {site.hero.eyebrow}
-        <span class="h-px w-10 bg-white/40"></span>
+        <span class="h-px w-8 bg-white/40 sm:w-10"></span>
       </p>
       <h1
         id="hero-title"
-        class="mx-auto max-w-4xl text-balance text-4xl leading-[1.08] tracking-tight md:text-6xl lg:text-7xl"
+        class="mx-auto max-w-4xl text-balance text-3xl leading-[1.08] tracking-tight sm:text-4xl md:text-6xl lg:text-7xl"
       >
         {site.hero.title}
       </h1>
-      <p class="mx-auto max-w-2xl text-balance text-lg leading-8 text-white/82 md:text-xl">
+      <p class="mx-auto max-w-2xl text-balance text-base leading-7 text-white/82 sm:text-lg sm:leading-8 md:text-xl">
         {site.hero.text}
       </p>
-      <div class="flex flex-col items-center justify-center gap-3 pt-4 sm:flex-row sm:flex-wrap">
+      <div class="flex w-full flex-col items-stretch justify-center gap-3 pt-4 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center">
         <Button
           as="a"
           href={withBase(site.hero.primaryCta.href)}
           variant="hero-primary"
           size="lg"
+          fullWidth
           rel={undefined}
-          class="min-h-13 min-w-[220px] justify-center"
+          class="justify-center sm:min-w-[220px]"
         >
           {site.hero.primaryCta.label}
         </Button>
@@ -52,8 +53,9 @@ import Button from "./ui/Button.astro";
           href={withBase(site.hero.secondaryCta.href)}
           variant="hero-outline"
           size="lg"
+          fullWidth
           rel={undefined}
-          class="min-h-13 min-w-[220px] justify-center"
+          class="justify-center sm:min-w-[220px]"
         >
           {site.hero.secondaryCta.label}
         </Button>
@@ -113,17 +115,19 @@ import Button from "./ui/Button.astro";
     position: relative;
     max-width: 64rem;
     margin: 0 auto;
-    min-height: 88svh;
+    min-height: 78svh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: calc(var(--spacing) * 28) calc(var(--spacing) * 4);
+    padding: calc(var(--spacing) * 20) calc(var(--spacing) * 4);
     text-align: center;
   }
 
   @media (min-width: 640px) {
     .hero__content {
+      min-height: 86svh;
+      padding-block: calc(var(--spacing) * 28);
       padding-inline: calc(var(--spacing) * 6);
     }
   }

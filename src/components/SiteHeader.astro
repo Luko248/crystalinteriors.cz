@@ -93,17 +93,24 @@ const activePath =
   }
 
   .site-header__brand-name {
-    font-size: 0.7rem;
-    font-weight: 500;
+    font-size: 0.75rem;
+    font-weight: 600;
     letter-spacing: var(--tracking-eyebrow);
     text-transform: uppercase;
     color: var(--color-primary);
+  }
+
+  @media (min-width: 640px) {
+    .site-header__brand-name {
+      font-size: 0.8rem;
+    }
   }
 
   .site-header__brand-tagline {
     display: none;
     font-size: 0.875rem;
     color: var(--color-muted);
+    line-height: 1.4;
   }
 
   @media (min-width: 640px) {

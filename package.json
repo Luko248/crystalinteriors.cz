@@ -8,22 +8,22 @@
   "dependencies": {
     "@fancyapps/ui": "^6.1.14",
     "@googlemaps/js-api-loader": "^2.0.2",
-    "cloudinary": "^2.8.0",
-    "tailwind-merge": "^3.4.0",
-    "tailwind-variants": "^3.1.1"
+    "cloudinary": "^2.10.0",
+    "tailwind-merge": "^3.6.0",
+    "tailwind-variants": "^3.2.2"
   },
   "keywords": [],
   "author": "Lukas Chylik",
   "devDependencies": {
-    "@astrojs/check": "^0.9.5",
-    "@tailwindcss/cli": "^4.1.17",
+    "@astrojs/check": "^0.9.9",
+    "@tailwindcss/cli": "^4.3.0",
     "@toolwind/anchors": "^1.0.10",
-    "@types/google.maps": "^3.58.1",
-    "@types/node": "^25.0.10",
-    "astro": "^5.16.15",
+    "@types/google.maps": "^3.64.1",
+    "@types/node": "^24.10.0",
+    "astro": "^6.3.3",
     "npm-run-all": "^4.1.5",
-    "tailwindcss": "^4.1.17",
-    "typescript": "^5.9.3"
+    "tailwindcss": "^4.3.0",
+    "typescript": "^6.0.3"
   },
   "scripts": {
     "dev": "run-p css:dev astro:dev",
@@ -36,6 +36,6 @@
     "css:build": "tailwindcss -i public/styles/tailwind.source.css -o public/styles/tailwind.css --minify"
   },
   "engines": {
-    "node": ">=18.18.0"
+    "node": ">=22.0.0"
   }
 }

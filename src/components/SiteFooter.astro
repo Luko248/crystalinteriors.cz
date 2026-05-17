@@ -4,12 +4,12 @@ import { withBase } from "@/lib/navigation";
 ---
 
 <footer
-  class="border-t border-border bg-surface/60 py-12"
+  class="border-t border-border bg-surface/60 py-10 sm:py-12"
   aria-labelledby="site-footer-heading"
 >
   <h2 id="site-footer-heading" class="sr-only">Patička stránky</h2>
-  <div class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 md:grid-cols-[1.2fr_1fr_1fr] md:items-start lg:px-8">
-    <div class="space-y-2">
+  <div class="mx-auto grid max-w-7xl gap-8 px-4 sm:grid-cols-2 sm:px-6 md:grid-cols-[1.2fr_1fr_1fr] md:items-start lg:px-8">
+    <div class="space-y-2 sm:col-span-2 md:col-span-1">
       <p class="text-sm font-medium uppercase tracking-eyebrow text-primary">
         {site.name}
       </p>
@@ -59,7 +59,7 @@ import { withBase } from "@/lib/navigation";
     </nav>
   </div>
 
-  <div class="mx-auto mt-10 max-w-7xl border-t border-border px-4 pt-6 text-xs text-muted sm:px-6 lg:px-8">
+  <div class="mx-auto mt-8 max-w-7xl border-t border-border px-4 pt-6 text-xs text-muted sm:mt-10 sm:px-6 lg:px-8">
     <p>© {new Date().getFullYear()} {site.name}. Všechna práva vyhrazena.</p>
   </div>
 </footer>

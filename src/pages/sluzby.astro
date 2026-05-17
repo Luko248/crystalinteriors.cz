@@ -19,37 +19,37 @@ import { withBase } from "@/lib/navigation";
 >
   <SiteHeader pathname={Astro.url.pathname} />
   <main id="main">
-    <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+    <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
       <SectionIntro
         eyebrow="Služby"
         title="Návrh, vizualizace i realizace"
         text="Poskytujeme kompletní designérské služby od první konzultace po hotový interiér. Navrhujeme kuchyně, interiéry a komerční prostory s důrazem na funkci, detail a rozumné rozhodování."
       />
 
-      <div class="mt-12 grid gap-6 lg:grid-cols-2">
-        <article class="glass-hover rounded-2xl border border-border bg-surface p-8">
+      <div class="mt-10 grid gap-6 sm:mt-12 lg:grid-cols-2">
+        <article class="glass-hover rounded-2xl border border-border bg-surface p-6 sm:p-8">
           <p class="text-sm font-medium uppercase tracking-eyebrow text-primary">
             Realizace interiérů a nábytku na míru
           </p>
-          <h2 class="mt-4 text-3xl text-foreground">Od návrhu po montáž</h2>
-          <p class="mt-4 leading-8 text-muted">
+          <h2 class="mt-4 text-2xl text-foreground sm:text-3xl">Od návrhu po montáž</h2>
+          <p class="mt-4 leading-7 text-muted sm:leading-8">
             Připravíme interiér jako celek. Řešíme dispozici, materiály, spotřebiče, nábytek, detaily i návaznost na výrobu a montáž.
           </p>
         </article>
 
-        <article class="glass-hover rounded-2xl border border-border bg-surface p-8">
+        <article class="glass-hover rounded-2xl border border-border bg-surface p-6 sm:p-8">
           <p class="text-sm font-medium uppercase tracking-eyebrow text-primary">
             Návrhy interiérů 2D a 3D
           </p>
-          <h2 class="mt-4 text-3xl text-foreground">Jistota před realizací</h2>
-          <p class="mt-4 leading-8 text-muted">
+          <h2 class="mt-4 text-2xl text-foreground sm:text-3xl">Jistota před realizací</h2>
+          <p class="mt-4 leading-7 text-muted sm:leading-8">
             Vizualizace používáme jako pracovní nástroj. Pomáhají ověřit dispozici, proporce, materiály i atmosféru prostoru ještě před výrobou.
           </p>
         </article>
       </div>
     </section>
 
-    <section class="border-y border-border bg-surface py-16 lg:py-24">
+    <section class="border-y border-border bg-surface py-12 sm:py-16 lg:py-24">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionIntro
           eyebrow="Ceník vizualizací"
@@ -57,7 +57,7 @@ import { withBase } from "@/lib/navigation";
           text="Cena se odvíjí od rozsahu, složitosti a typu prostoru. Níže uvádíme základní orientaci pro první plánování projektu."
         />
 
-        <div class="mt-12 grid gap-4 md:grid-cols-2">
+        <div class="mt-10 grid gap-4 sm:mt-12 md:grid-cols-2">
           {
             site.pricing.map((item) => (
               <div class="flex items-center justify-between gap-4 rounded-xl border border-border bg-background px-5 py-4">
@@ -69,7 +69,7 @@ import { withBase } from "@/lib/navigation";
         </div>
 
         <div class="mt-10">
-          <Button as="a" href={withBase("/kontakt/")} variant="primary" size="lg" rel={undefined}>
+          <Button as="a" href={withBase("/kontakt/")} variant="primary" size="lg" fullWidth rel={undefined} class="sm:w-auto">
             Poptat projekt
           </Button>
         </div>
