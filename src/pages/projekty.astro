@@ -4,7 +4,18 @@ import SiteHeader from "@/components/SiteHeader.astro";
 import SiteFooter from "@/components/SiteFooter.astro";
 import SectionIntro from "@/components/SectionIntro.astro";
 import ReferencesGallery from "@/components/ReferencesGallery.astro";
-import { site } from "@/data/site";
+import { readSiteData } from "@/lib/site-store";
+
+export const prerender = false;
+
+const data = await readSiteData(Astro.locals);
+const references = data.references;
+// Short edge cache so admin saves propagate quickly while shielding the
+// origin from repeat traffic.
+Astro.response.headers.set(
+  "Cache-Control",
+  "public, max-age=30, s-maxage=60, stale-while-revalidate=120",
+);
 ---
 
 <BaseLayout
@@ -25,7 +36,7 @@ import { site } from "@/data/site";
     />
 
     <div class="mt-10 sm:mt-12">
-      {site.references.map((category) => <ReferencesGallery category={category} />)}
+      {references.map((category) => <ReferencesGallery category={category} />)}
     </div>
   </main>
   <SiteFooter />

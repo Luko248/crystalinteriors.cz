@@ -1,0 +1,379 @@
+---
+import AdminLayout from "@/layouts/AdminLayout.astro";
+import { requireSession } from "@/lib/auth";
+import { readSiteData } from "@/lib/site-store";
+
+export const prerender = false;
+
+const result = await requireSession(Astro);
+if (result instanceof Response) return result;
+
+const data = await readSiteData(Astro.locals);
+---
+
+<AdminLayout title="Galerie projektů" session={result}>
+  <header class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
+    <div>
+      <h1 class="text-3xl text-foreground sm:text-4xl">Galerie projektů</h1>
+      <p class="mt-2 text-sm text-muted sm:text-base">
+        Spravujte kategorie a jejich obsah na <code class="rounded bg-surface px-1.5 py-0.5 text-sm">/projekty/</code>.
+      </p>
+    </div>
+    <p class="text-xs text-subtle" id="last-saved">
+      Naposledy uloženo: <time>{new Date(data.updatedAt).toLocaleString("cs-CZ")}</time>
+    </p>
+  </header>
+
+  <form id="sections-form" class="mt-8 flex flex-col gap-4">
+    <ul id="sections-rows" class="flex list-none flex-col gap-4 p-0 m-0"></ul>
+
+    <div class="flex flex-wrap items-center gap-3">
+      <button
+        type="button"
+        data-action="add"
+        class="inline-flex h-10 cursor-pointer items-center gap-2 rounded-full border border-border bg-background px-4 text-sm text-foreground transition-colors duration-fast ease-standard hover:border-primary hover:text-primary"
+      >
+        + Přidat sekci
+      </button>
+
+      <span class="flex-1"></span>
+
+      <button
+        type="submit"
+        class="inline-flex h-11 cursor-pointer items-center justify-center rounded-full bg-primary px-6 font-semibold text-white shadow-card transition-colors duration-fast ease-standard hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50 disabled:pointer-events-none"
+      >
+        <span data-label-idle>Uložit změny</span>
+        <span data-label-busy hidden>Ukládám…</span>
+      </button>
+    </div>
+
+    <p id="save-status" class="hidden" role="status"></p>
+  </form>
+
+  <section class="mt-12 rounded-2xl border border-border bg-surface p-6 sm:p-8">
+    <h2 class="text-xl text-foreground sm:text-2xl">Nahrávání fotek</h2>
+    <p class="mt-2 text-sm leading-6 text-muted sm:text-base">
+      Vyberte sekci a nahrávejte fotky přímo do její Cloudinary složky. Fotky
+      se objeví na <code class="rounded bg-background px-1.5 py-0.5 text-sm">/projekty/#&lt;slug&gt;</code> jakmile je
+      Cloudinary zpřístupní.
+    </p>
+
+    <form id="upload-form" class="mt-6 flex flex-col gap-4">
+      <label class="flex flex-col gap-1 text-sm">
+        <span class="font-medium text-foreground">Sekce</span>
+        <select
+          id="upload-section"
+          required
+          class="h-10 rounded-lg border border-border bg-background px-3 text-foreground focus-visible:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        >
+        </select>
+      </label>
+      <label class="flex flex-col gap-1 text-sm">
+        <span class="font-medium text-foreground">Soubory (JPG, PNG, AVIF…)</span>
+        <input
+          type="file"
+          id="upload-files"
+          accept="image/*"
+          multiple
+          required
+          class="cursor-pointer rounded-lg border border-border bg-background p-2 text-sm text-foreground file:mr-3 file:rounded-md file:border-0 file:bg-primary file:px-3 file:py-1.5 file:text-white file:cursor-pointer hover:file:bg-primary-hover"
+        />
+      </label>
+
+      <div class="flex flex-wrap items-center gap-3">
+        <button
+          type="submit"
+          class="inline-flex h-11 cursor-pointer items-center justify-center rounded-full bg-primary px-6 font-semibold text-white shadow-card transition-colors duration-fast ease-standard hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50 disabled:pointer-events-none"
+        >
+          <span data-label-idle>Nahrát</span>
+          <span data-label-busy hidden>Nahrávám…</span>
+        </button>
+        <progress id="upload-progress" class="hidden w-full max-w-xs" max="100" value="0"></progress>
+      </div>
+
+      <p id="upload-status" class="hidden" role="status"></p>
+    </form>
+  </section>
+
+  <template id="row-template">
+    <li class="flex flex-col gap-3 rounded-2xl border border-border bg-surface p-4 sm:p-5">
+      <div class="grid gap-3 sm:grid-cols-2">
+        <label class="flex flex-col gap-1 text-sm">
+          <span class="font-medium text-foreground">Název</span>
+          <input
+            type="text"
+            name="title"
+            required
+            placeholder="Kuchyně"
+            class="h-10 rounded-lg border border-border bg-background px-3 text-foreground placeholder:text-subtle focus-visible:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          />
+        </label>
+        <label class="flex flex-col gap-1 text-sm">
+          <span class="font-medium text-foreground">Slug (URL kotva)</span>
+          <input
+            type="text"
+            name="slug"
+            required
+            pattern="[a-z0-9-]+"
+            placeholder="kuchyne"
+            class="h-10 rounded-lg border border-border bg-background px-3 font-mono text-sm text-foreground placeholder:text-subtle focus-visible:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          />
+        </label>
+        <label class="flex flex-col gap-1 text-sm">
+          <span class="font-medium text-foreground">Cloudinary tag</span>
+          <input
+            type="text"
+            name="tag"
+            required
+            placeholder="kuchyne"
+            class="h-10 rounded-lg border border-border bg-background px-3 font-mono text-sm text-foreground placeholder:text-subtle focus-visible:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          />
+        </label>
+      </div>
+
+      <label class="flex flex-col gap-1 text-sm">
+        <span class="font-medium text-foreground">Popis</span>
+        <textarea
+          name="text"
+          rows="2"
+          placeholder="Krátký popis sekce, který se zobrazí pod nadpisem."
+          class="resize-y rounded-lg border border-border bg-background px-3 py-2 text-sm leading-6 text-foreground placeholder:text-subtle focus-visible:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        ></textarea>
+      </label>
+
+      <div class="flex items-center gap-1">
+        <button
+          type="button"
+          data-action="move-up"
+          class="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-muted transition-colors duration-fast ease-standard hover:bg-background hover:text-foreground"
+          aria-label="Posunout nahoru"
+        >
+          ↑
+        </button>
+        <button
+          type="button"
+          data-action="move-down"
+          class="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-muted transition-colors duration-fast ease-standard hover:bg-background hover:text-foreground"
+          aria-label="Posunout dolů"
+        >
+          ↓
+        </button>
+        <span class="flex-1"></span>
+        <button
+          type="button"
+          data-action="remove"
+          class="inline-flex h-9 cursor-pointer items-center rounded-lg px-3 text-sm text-muted transition-colors duration-fast ease-standard hover:bg-red-500/10 hover:text-red-500"
+        >
+          Odebrat sekci
+        </button>
+      </div>
+    </li>
+  </template>
+
+  <script is:inline define:vars={{ initialData: data.references }}>
+    (() => {
+      const list = document.getElementById("sections-rows");
+      const template = document.getElementById("row-template");
+      const form = document.getElementById("sections-form");
+      const status = document.getElementById("save-status");
+      const addBtn = form.querySelector('[data-action="add"]');
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const idle = submitBtn.querySelector("[data-label-idle]");
+      const busy = submitBtn.querySelector("[data-label-busy]");
+      const lastSaved = document.getElementById("last-saved");
+      const uploadSelect = document.getElementById("upload-section");
+
+      const slugify = (raw) =>
+        raw
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[̀-ͯ]/g, "")
+          .replace(/[^a-z0-9-]+/g, "-")
+          .replace(/^-+|-+$/g, "");
+
+      const refreshUploadOptions = () => {
+        const sections = Array.from(list.querySelectorAll("li")).map((li) => ({
+          slug: li.querySelector('[name="slug"]').value.trim(),
+          title: li.querySelector('[name="title"]').value.trim(),
+        })).filter((s) => s.slug);
+        uploadSelect.innerHTML =
+          sections.length === 0
+            ? '<option value="">— uložte nejprve sekci —</option>'
+            : sections
+                .map((s) => `<option value="${s.slug}">${s.title || s.slug}</option>`)
+                .join("");
+      };
+
+      const addRow = (item = { slug: "", tag: "", title: "", text: "" }) => {
+        const fragment = template.content.cloneNode(true);
+        const li = fragment.querySelector("li");
+        li.querySelector('[name="title"]').value = item.title;
+        li.querySelector('[name="slug"]').value = item.slug;
+        li.querySelector('[name="tag"]').value = item.tag;
+        li.querySelector('[name="text"]').value = item.text;
+        list.appendChild(li);
+
+        // Auto-slug from title when slug is still empty.
+        const titleInput = li.querySelector('[name="title"]');
+        const slugInput = li.querySelector('[name="slug"]');
+        const tagInput = li.querySelector('[name="tag"]');
+        titleInput.addEventListener("input", () => {
+          if (!slugInput.dataset.touched) slugInput.value = slugify(titleInput.value);
+          if (!tagInput.dataset.touched) tagInput.value = slugify(titleInput.value);
+          refreshUploadOptions();
+        });
+        slugInput.addEventListener("input", () => {
+          slugInput.dataset.touched = "1";
+          refreshUploadOptions();
+        });
+        tagInput.addEventListener("input", () => { tagInput.dataset.touched = "1"; });
+
+        refreshUploadOptions();
+      };
+
+      initialData.forEach(addRow);
+      if (!initialData.length) addRow();
+
+      list.addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-action]");
+        if (!button) return;
+        const li = button.closest("li");
+        switch (button.dataset.action) {
+          case "remove":
+            if (!confirm("Opravdu odebrat tuto sekci? Fotky v Cloudinary zůstanou.")) return;
+            li.remove();
+            if (!list.children.length) addRow();
+            refreshUploadOptions();
+            break;
+          case "move-up":
+            if (li.previousElementSibling) li.parentNode.insertBefore(li, li.previousElementSibling);
+            break;
+          case "move-down":
+            if (li.nextElementSibling) li.parentNode.insertBefore(li.nextElementSibling, li);
+            break;
+        }
+      });
+
+      addBtn.addEventListener("click", () => addRow());
+
+      const showStatus = (message, isError = false) => {
+        status.textContent = message;
+        status.className = isError
+          ? "rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-500"
+          : "rounded-xl border border-primary/30 bg-primary/10 px-4 py-3 text-sm text-primary";
+      };
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const references = Array.from(list.querySelectorAll("li")).map((li) => ({
+          slug: slugify(li.querySelector('[name="slug"]').value),
+          tag: li.querySelector('[name="tag"]').value.trim(),
+          title: li.querySelector('[name="title"]').value.trim(),
+          text: li.querySelector('[name="text"]').value.trim(),
+        })).filter((r) => r.slug && r.tag && r.title);
+
+        submitBtn.disabled = true;
+        idle.hidden = true;
+        busy.hidden = false;
+        status.classList.add("hidden");
+
+        try {
+          const response = await fetch("/api/site-data/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ references }),
+          });
+          const result = await response.json();
+          if (!response.ok) throw new Error(result.error ?? `HTTP ${response.status}`);
+          showStatus("Uloženo. Změny se promítnou do několika sekund.");
+          if (lastSaved && result.data?.updatedAt) {
+            lastSaved.querySelector("time").textContent = new Date(result.data.updatedAt).toLocaleString("cs-CZ");
+          }
+        } catch (error) {
+          showStatus(error instanceof Error ? `Chyba: ${error.message}` : "Uložení selhalo.", true);
+        } finally {
+          submitBtn.disabled = false;
+          idle.hidden = false;
+          busy.hidden = true;
+        }
+      });
+
+      // ---------- Upload form ----------
+      const uploadForm = document.getElementById("upload-form");
+      const uploadFiles = document.getElementById("upload-files");
+      const uploadProgress = document.getElementById("upload-progress");
+      const uploadStatus = document.getElementById("upload-status");
+      const uploadBtn = uploadForm.querySelector('button[type="submit"]');
+      const uploadIdle = uploadBtn.querySelector("[data-label-idle]");
+      const uploadBusy = uploadBtn.querySelector("[data-label-busy]");
+
+      const setUploadStatus = (message, isError = false) => {
+        uploadStatus.textContent = message;
+        uploadStatus.className = isError
+          ? "rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-500"
+          : "rounded-xl border border-primary/30 bg-primary/10 px-4 py-3 text-sm text-primary";
+      };
+
+      uploadForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const slug = uploadSelect.value;
+        const files = uploadFiles.files;
+        if (!slug || !files || files.length === 0) return;
+
+        const matchingRow = Array.from(list.querySelectorAll("li")).find(
+          (li) => li.querySelector('[name="slug"]').value.trim() === slug,
+        );
+        const tag = matchingRow ? matchingRow.querySelector('[name="tag"]').value.trim() : slug;
+        const folder = `crystal-interiors/references/${slug}`;
+
+        uploadBtn.disabled = true;
+        uploadIdle.hidden = true;
+        uploadBusy.hidden = false;
+        uploadStatus.classList.add("hidden");
+        uploadProgress.classList.remove("hidden");
+        uploadProgress.value = 0;
+
+        try {
+          const signResponse = await fetch("/api/cloudinary/sign/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ folder, tags: [tag] }),
+          });
+          const sign = await signResponse.json();
+          if (!signResponse.ok) throw new Error(sign.error ?? "Sign failed");
+
+          let uploaded = 0;
+          for (const file of Array.from(files)) {
+            const form = new FormData();
+            form.set("file", file);
+            form.set("api_key", sign.apiKey);
+            form.set("timestamp", String(sign.timestamp));
+            form.set("signature", sign.signature);
+            form.set("folder", sign.folder);
+            if (sign.tags) form.set("tags", sign.tags);
+
+            const uploadResponse = await fetch(
+              `https://api.cloudinary.com/v1_1/${sign.cloudName}/image/upload`,
+              { method: "POST", body: form },
+            );
+            if (!uploadResponse.ok) {
+              const detail = await uploadResponse.text();
+              throw new Error(`Upload ${file.name}: ${detail.slice(0, 120)}`);
+            }
+            uploaded++;
+            uploadProgress.value = (uploaded / files.length) * 100;
+          }
+
+          setUploadStatus(`Nahráno ${uploaded} fotek do "${slug}". Cloudinary je zpřístupní za pár sekund.`);
+          uploadFiles.value = "";
+        } catch (error) {
+          setUploadStatus(error instanceof Error ? `Chyba: ${error.message}` : "Upload selhal.", true);
+        } finally {
+          uploadBtn.disabled = false;
+          uploadIdle.hidden = false;
+          uploadBusy.hidden = true;
+        }
+      });
+    })();
+  </script>
+</AdminLayout>

@@ -1,0 +1,191 @@
+---
+import AdminLayout from "@/layouts/AdminLayout.astro";
+import { requireSession } from "@/lib/auth";
+import { readSiteData } from "@/lib/site-store";
+
+export const prerender = false;
+
+const result = await requireSession(Astro);
+if (result instanceof Response) return result;
+
+const data = await readSiteData(Astro.locals);
+---
+
+<AdminLayout title="Ceník" session={result}>
+  <header class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
+    <div>
+      <h1 class="text-3xl text-foreground sm:text-4xl">Ceník</h1>
+      <p class="mt-2 text-sm text-muted sm:text-base">
+        Položky se objeví na <code class="rounded bg-surface px-1.5 py-0.5 text-sm">/sluzby/</code>.
+      </p>
+    </div>
+    <p class="text-xs text-subtle" id="last-saved">
+      Naposledy uloženo: <time>{new Date(data.updatedAt).toLocaleString("cs-CZ")}</time>
+    </p>
+  </header>
+
+  <form id="pricing-form" class="mt-8 flex flex-col gap-4">
+    <ul id="pricing-rows" class="flex list-none flex-col gap-3 p-0 m-0"></ul>
+
+    <div class="flex flex-wrap items-center gap-3">
+      <button
+        type="button"
+        data-action="add"
+        class="inline-flex h-10 cursor-pointer items-center gap-2 rounded-full border border-border bg-background px-4 text-sm text-foreground transition-colors duration-fast ease-standard hover:border-primary hover:text-primary"
+      >
+        + Přidat položku
+      </button>
+
+      <span class="flex-1"></span>
+
+      <button
+        type="submit"
+        class="inline-flex h-11 cursor-pointer items-center justify-center rounded-full bg-primary px-6 font-semibold text-white shadow-card transition-colors duration-fast ease-standard hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50 disabled:pointer-events-none"
+      >
+        <span data-label-idle>Uložit změny</span>
+        <span data-label-busy hidden>Ukládám…</span>
+      </button>
+    </div>
+
+    <p id="save-status" class="hidden text-sm leading-6" role="status"></p>
+  </form>
+
+  <template id="row-template">
+    <li class="flex flex-col gap-3 rounded-2xl border border-border bg-surface p-4 sm:flex-row sm:items-center sm:gap-4 sm:p-5">
+      <label class="flex-1">
+        <span class="sr-only">Název</span>
+        <input
+          type="text"
+          name="title"
+          required
+          placeholder="Vizualizace kuchyně"
+          class="h-10 w-full rounded-lg border border-border bg-background px-3 text-foreground placeholder:text-subtle focus-visible:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        />
+      </label>
+      <label class="sm:w-48">
+        <span class="sr-only">Cena</span>
+        <input
+          type="text"
+          name="price"
+          required
+          placeholder="od 2 000 Kč"
+          class="h-10 w-full rounded-lg border border-border bg-background px-3 text-foreground placeholder:text-subtle focus-visible:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        />
+      </label>
+      <div class="flex gap-1 sm:gap-0">
+        <button
+          type="button"
+          data-action="move-up"
+          class="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-muted transition-colors duration-fast ease-standard hover:bg-background hover:text-foreground"
+          aria-label="Posunout nahoru"
+          title="Posunout nahoru"
+        >
+          ↑
+        </button>
+        <button
+          type="button"
+          data-action="move-down"
+          class="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-muted transition-colors duration-fast ease-standard hover:bg-background hover:text-foreground"
+          aria-label="Posunout dolů"
+          title="Posunout dolů"
+        >
+          ↓
+        </button>
+        <button
+          type="button"
+          data-action="remove"
+          class="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-muted transition-colors duration-fast ease-standard hover:bg-red-500/10 hover:text-red-500"
+          aria-label="Odebrat"
+          title="Odebrat"
+        >
+          ×
+        </button>
+      </div>
+    </li>
+  </template>
+
+  <script is:inline define:vars={{ initialData: data.pricing }}>
+    (() => {
+      const list = document.getElementById("pricing-rows");
+      const template = document.getElementById("row-template");
+      const form = document.getElementById("pricing-form");
+      const status = document.getElementById("save-status");
+      const addBtn = form.querySelector('[data-action="add"]');
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const idle = submitBtn.querySelector("[data-label-idle]");
+      const busy = submitBtn.querySelector("[data-label-busy]");
+      const lastSaved = document.getElementById("last-saved");
+
+      const addRow = (item = { title: "", price: "" }) => {
+        const fragment = template.content.cloneNode(true);
+        const li = fragment.querySelector("li");
+        li.querySelector('[name="title"]').value = item.title;
+        li.querySelector('[name="price"]').value = item.price;
+        list.appendChild(li);
+      };
+
+      initialData.forEach(addRow);
+      if (!initialData.length) addRow();
+
+      list.addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-action]");
+        if (!button) return;
+        const li = button.closest("li");
+        switch (button.dataset.action) {
+          case "remove":
+            li.remove();
+            if (!list.children.length) addRow();
+            break;
+          case "move-up":
+            if (li.previousElementSibling) li.parentNode.insertBefore(li, li.previousElementSibling);
+            break;
+          case "move-down":
+            if (li.nextElementSibling) li.parentNode.insertBefore(li.nextElementSibling, li);
+            break;
+        }
+      });
+
+      addBtn.addEventListener("click", () => addRow());
+
+      const showStatus = (message, isError = false) => {
+        status.textContent = message;
+        status.className = isError
+          ? "rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-500"
+          : "rounded-xl border border-primary/30 bg-primary/10 px-4 py-3 text-sm text-primary";
+      };
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const pricing = Array.from(list.querySelectorAll("li")).map((li) => ({
+          title: li.querySelector('[name="title"]').value.trim(),
+          price: li.querySelector('[name="price"]').value.trim(),
+        })).filter((row) => row.title && row.price);
+
+        submitBtn.disabled = true;
+        idle.hidden = true;
+        busy.hidden = false;
+        status.classList.add("hidden");
+
+        try {
+          const response = await fetch("/api/site-data/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ pricing, references: undefined }),
+          });
+          const result = await response.json();
+          if (!response.ok) throw new Error(result.error ?? `HTTP ${response.status}`);
+          showStatus("Uloženo. Změny se promítnou do několika sekund.");
+          if (lastSaved && result.data?.updatedAt) {
+            lastSaved.querySelector("time").textContent = new Date(result.data.updatedAt).toLocaleString("cs-CZ");
+          }
+        } catch (error) {
+          showStatus(error instanceof Error ? `Chyba: ${error.message}` : "Uložení selhalo.", true);
+        } finally {
+          submitBtn.disabled = false;
+          idle.hidden = false;
+          busy.hidden = true;
+        }
+      });
+    })();
+  </script>
+</AdminLayout>

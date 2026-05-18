@@ -1,0 +1,124 @@
+---
+import { site } from "@/data/site";
+import { withBase } from "@/lib/navigation";
+
+export interface Props {
+  title: string;
+  session?: { email: string } | null;
+}
+
+const { title, session } = Astro.props;
+const pageTitle = `${title} | Admin · ${site.name}`;
+---
+
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>{pageTitle}</title>
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="color-scheme" content="light dark" />
+
+    <link rel="stylesheet" href={import.meta.env.BASE_URL + "styles/tailwind.css"} />
+    <link rel="stylesheet" href={import.meta.env.BASE_URL + "styles/global.css"} />
+
+    <script is:inline>
+      (() => {
+        try {
+          const root = document.documentElement;
+          const stored = localStorage.getItem("theme");
+          const system = window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+          root.dataset.theme = stored === "dark" || stored === "light" ? stored : system;
+        } catch {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
+  </head>
+  <body class="min-h-screen bg-background text-foreground antialiased">
+    <header class="border-b border-border bg-surface">
+      <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+        <a
+          href={withBase("/admin/")}
+          class="flex items-center gap-3 no-underline"
+          aria-label="Crystal Interiors administrace"
+        >
+          <img
+            src={withBase("/images/logos/crystalinteriors_logo-white.svg")}
+            alt=""
+            width="40"
+            height="40"
+            class="h-10 w-10 object-contain dark:[filter:none] [filter:invert(1)_brightness(0.2)]"
+            loading="eager"
+          />
+          <span class="flex flex-col leading-tight">
+            <span class="text-[0.7rem] font-semibold uppercase tracking-eyebrow text-primary">
+              {site.name}
+            </span>
+            <span class="text-xs text-muted">Administrace</span>
+          </span>
+        </a>
+
+        {
+          session && (
+            <div class="flex items-center gap-3 text-sm">
+              <span class="hidden text-muted sm:inline">{session.email}</span>
+              <form method="POST" action={withBase("/api/auth/logout/")}>
+                <button
+                  type="submit"
+                  class="inline-flex h-9 cursor-pointer items-center rounded-full border border-border bg-background px-4 text-foreground transition-colors duration-fast ease-standard hover:border-primary hover:text-primary"
+                >
+                  Odhlásit
+                </button>
+              </form>
+            </div>
+          )
+        }
+      </div>
+
+      {
+        session && (
+          <nav
+            class="border-t border-border bg-surface/60"
+            aria-label="Admin sekce"
+          >
+            <div class="mx-auto flex max-w-6xl items-center gap-1 overflow-x-auto px-4 py-2 sm:px-6 lg:px-8">
+              {[
+                { href: "/admin/", label: "Přehled" },
+                { href: "/admin/sections/", label: "Galerie" },
+                { href: "/admin/pricelist/", label: "Ceník" },
+              ].map((item) => {
+                const isActive =
+                  Astro.url.pathname === item.href ||
+                  (item.href !== "/admin/" && Astro.url.pathname.startsWith(item.href));
+                return (
+                  <a
+                    href={withBase(item.href)}
+                    class:list={[
+                      "rounded-md px-3 py-1.5 text-sm no-underline transition-colors duration-fast ease-standard",
+                      isActive
+                        ? "bg-primary text-white"
+                        : "text-muted hover:bg-background hover:text-foreground",
+                    ]}
+                  >
+                    {item.label}
+                  </a>
+                );
+              })}
+            </div>
+          </nav>
+        )
+      }
+    </header>
+
+    <main class="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-14">
+      <slot />
+    </main>
+  </body>
+</html>
